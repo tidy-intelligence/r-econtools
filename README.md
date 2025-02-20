@@ -12,7 +12,22 @@ Check](https://github.com/tidy-intelligence/econtools/actions/workflows/R-CMD-ch
 coverage](https://codecov.io/gh/tidy-intelligence/econtools/graph/badge.svg)](https://app.codecov.io/gh/tidy-intelligence/econtools)
 <!-- badges: end -->
 
-The goal of econtools is to …
+The goal of econtools is to provide tools for analyzing economic data
+similar to the Python
+[bblocks](https://github.com/ONEcampaign/bblocks/tree/main) package.
+
+Roadmap:
+
+\[-\] Using [wbwdi](https://github.com/tidy-intelligence/r-wbwdi):
+adding `add_population_column()`, `add_poverty_ratio_column()`,
+`add_population_density_column()`, `add_population_share_column()`,
+`add_income_level_column()` \[\] Using
+[imfweo](https://github.com/Teal-Insights/imfweo): adding
+`add_gdp_column()`, `add_gov_expenditure_column()`,
+`add_gdp_share_column()`, `add_gov_exp_share_column()` \[\] Using
+[econid](https://github.com/Teal-Insights/r-econid): introducing
+`id_type="regex"` to all existing functions and adding
+`add_short_names_column()`, `add_iso3_codes_column()`
 
 ## Installation
 
