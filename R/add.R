@@ -2,52 +2,77 @@
 #' Add Population Column to Country Data
 #' @param df A data frame containing country identifiers.
 #' @param id_column Name of the column containing country identifiers.
-#' @param id_type Type of country identifier. Defaults to "iso3_code". 
-#' @param date_column Optional. Name of the column containing dates for time-specific data.
+#' @param id_type Type of country identifier. Defaults to "iso3_code".
+#' @param date_column Optional. Name of the column containing dates for
+#'  time-specific data.
 #' @param target_column Name of the output column. Defaults to "population".
 #' @return A data frame with an additional column containing population data.
 #' @examples
 #' # Add population data using ISO3 codes
 #' df <- data.frame(country = c("USA", "CAN", "MEX"))
 #' result <- add_population_column(df, id_column = "country")
-#' 
+#'
 #' # Add population data with specific dates
 #' df <- data.frame(country = c("USA", "CAN"), year = c(2019, 2020))
-#' result <- add_population_column(df, id_column = "country", date_column = "year")
-#' 
+#' result <- add_population_column(
+#'  df, id_column = "country", date_column = "year"
+#' )
+#'
 #' @export
 add_population_column <- function(
-  df, id_column, id_type = "iso3_code", date_column = NULL, target_column = "population"
+  df,
+  id_column,
+  id_type = "iso3_code",
+  date_column = NULL,
+  target_column = "population"
 ) {
-  add_generic_column(df, id_column, id_type, date_column, target_column, get_population)
+  add_generic_column(
+    df, id_column, id_type, date_column, target_column, get_population
+  )
 }
 
 #' Add Poverty Ratio Column to Country Data
 #' @param df A data frame containing country identifiers.
 #' @param id_column Name of the column containing country identifiers.
-#' @param id_type Type of country identifier. Defaults to "iso3_code". 
-#' @param date_column Optional. Name of the column containing dates for time-specific data.
+#' @param id_type Type of country identifier. Defaults to "iso3_code".
+#' @param date_column Optional. Name of the column containing dates for
+#'  time-specific data.
 #' @param target_column Name of the output column. Defaults to "poverty_ratio".
 #' @return A data frame with an additional column containing poverty ratio data.
 #' @export
 add_poverty_ratio_column <- function(
-  df, id_column, id_type = "iso3_code", date_column = NULL, target_column = "poverty_ratio"
+  df,
+  id_column,
+  id_type = "iso3_code",
+  date_column = NULL,
+  target_column = "poverty_ratio"
 ) {
-  add_generic_column(df, id_column, id_type, date_column, target_column, get_poverty_ratio)
+  add_generic_column(
+    df, id_column, id_type, date_column, target_column, get_poverty_ratio
+  )
 }
 
 #' Add Population Density Column to Country Data
 #' @param df A data frame containing country identifiers.
 #' @param id_column Name of the column containing country identifiers.
-#' @param id_type Type of country identifier. Defaults to "iso3_code". 
-#' @param date_column Optional. Name of the column containing dates for time-specific data.
-#' @param target_column Name of the output column. Defaults to "population_density".
-#' @return A data frame with an additional column containing population density data.
+#' @param id_type Type of country identifier. Defaults to "iso3_code".
+#' @param date_column Optional. Name of the column containing dates for
+#'  time-specific data.
+#' @param target_column Name of the output column. Defaults to
+#'  "population_density".
+#' @return A data frame with an additional column containing population density
+#'  data.
 #' @export
 add_population_density_column <- function(
-  df, id_column, id_type = "iso3_code", date_column = NULL, target_column = "population_density"
+  df,
+  id_column,
+  id_type = "iso3_code",
+  date_column = NULL,
+  target_column = "population_density"
 ) {
-  add_generic_column(df, id_column, id_type, date_column, target_column, get_population_density)
+  add_generic_column(
+    df, id_column, id_type, date_column, target_column, get_population_density
+  )
 }
 
 #' @keywords internal
@@ -62,23 +87,25 @@ add_generic_column <- function(
   data <- data_fetcher(
     geographies,
     most_recent_only = is.null(date_column)
-  ) |> 
+  ) |>
     dplyr::rename(!!target_column := "value")
 
   id_col_sym <- sym(id_column)
   if (is.null(date_column)) {
     data <- data |> select(-"year")
-    df <- df |> 
+    df <- df |>
       left_join(
-        data, 
+        data,
         by = set_names("id", as_name(id_col_sym))
       )
   } else {
     date_col_sym <- sym(date_column)
-    df <- df |> 
+    df <- df |>
       left_join(
-        data, 
-        by = set_names(c("id", "year"), c(as_name(id_col_sym), as_name(date_col_sym)))
+        data,
+        by = set_names(
+          c("id", "year"), c(as_name(id_col_sym), as_name(date_col_sym))
+        )
       )
   }
 
@@ -88,19 +115,30 @@ add_generic_column <- function(
 #' Add Population Share Column to Country Data
 #' @param df A data frame containing country identifiers.
 #' @param id_column Name of the column containing country identifiers.
-#' @param id_type Type of country identifier. Defaults to "iso3_code". 
-#' @param date_column Optional. Name of the column containing dates for time-specific data.
-#' @param value_column Name of the column containing the value to divided by population.
-#' @param target_column Name of the output column. Defaults to "population_share".
-#' @return A data frame with an additional column containing a new column with a value divided by population.
+#' @param id_type Type of country identifier. Defaults to "iso3_code".
+#' @param date_column Optional. Name of the column containing dates for
+#'  time-specific data.
+#' @param value_column Name of the column containing the value to divided by
+#'  population.
+#' @param target_column Name of the output column. Defaults to
+#'  "population_share".
+#' @return A data frame with an additional column containing a new column with a
+#'  value divided by population.
 #' @export
 add_population_share_column <- function(
-  df, id_column, id_type = "iso3_code", date_column = NULL, value_column = "value", target_column = "population_share"
+  df,
+  id_column,
+  id_type = "iso3_code",
+  date_column = NULL,
+  value_column = "value",
+  target_column = "population_share"
 ) {
 
   validate_add_column_params(df, id_column, id_type, date_column)
 
-  df <- add_generic_column(df, id_column, id_type, date_column, "population", get_population)
+  df <- add_generic_column(
+    df, id_column, id_type, date_column, "population", get_population
+  )
   df[target_column] <- df[value_column] / df["population"]
   df
 }
@@ -108,9 +146,10 @@ add_population_share_column <- function(
 #' Add Income Levels to Country Data
 #' @param df A data frame containing country identifiers.
 #' @param id_column Name of the column containing country identifiers.
-#' @param id_type Type of country identifier. Defaults to "iso3_code". 
+#' @param id_type Type of country identifier. Defaults to "iso3_code".
 #' @param target_column Name of the output column. Defaults to "income_level".
-#' @return A data frame with a additional columns containing the income level ID and name.
+#' @return A data frame with a additional columns containing the income level ID
+#'  and name.
 #' @export
 add_income_level_column <- function(
   df, id_column, id_type = "iso3_code", target_column = "income_level"
@@ -122,9 +161,9 @@ add_income_level_column <- function(
   income_levels <- get_income_levels(geographies)
 
   id_col_sym <- sym(id_column)
-  df <- df |> 
+  df <- df |>
     left_join(
-      income_levels, 
+      income_levels,
       by = set_names("id", as_name(id_col_sym))
     )
   df
@@ -186,31 +225,37 @@ validate_date_column <- function(df, date_column) {
 }
 
 # Backlog ----------------------------------------------------------------
-
+# nolint start
 # TODO: wait for imfweo package
 # add_gdp_column <- function(
-#   df, id_column, id_type = "iso3_code", date_column = NULL, target_column = "gdp", usd = TRUE, include_estimates = FALSE
+#   df, id_column, id_type = "iso3_code", date_column = NULL, 
+#   target_column = "gdp", usd = TRUE, include_estimates = FALSE
 # ) {
 #   validate_add_column_params(df, id_column, id_type, date_column)
 # }
 
 # TODO: wait for imfweo package
 # add_gov_expenditure_column <- function(
-#   df, id_column, id_type = "iso3_code", date_column = NULL, target_column = "gov_exp", usd = TRUE, include_estimates = FALSE
+#   df, id_column, id_type = "iso3_code", date_column = NULL, 
+#   target_column = "gov_exp", usd = TRUE, include_estimates = FALSE
 # ) {
 #   validate_add_column_params(df, id_column, id_type, date_column)
 # }
 
 # TODO: wait for imfweo package
 # add_gdp_share_column <- function(
-#   df, id_column, id_type = "iso3_code", date_column = NULL, value_column = "value", target_column = "gdp_share", include_estimates = FALSE, usd = FALSE
+#   df, id_column, id_type = "iso3_code", date_column = NULL, 
+#   value_column = "value", target_column = "gdp_share", 
+#   include_estimates = FALSE, usd = FALSE
 # ) {
 #   validate_add_column_params(df, id_column, id_type, date_column)
 # }
 
 # TODO: wait for imfweo package
 # add_gov_exp_share_column <- function(
-#   df, id_column, id_type = "iso3_code", date_column = NULL, value_column = "value", target_column = "gov_exp_share", include_estimates = FALSE, usd = FALSE
+#   df, id_column, id_type = "iso3_code", date_column = NULL,
+#   value_column = "value", target_column = "gov_exp_share", 
+#   include_estimates = FALSE, usd = FALSE
 # ) {
 #   validate_add_column_params(df, id_column, id_type, date_column)
 # }
@@ -244,3 +289,4 @@ validate_date_column <- function(df, date_column) {
 #   df, value_col, share_of_value_col, target_col = NULL
 # ) { 
 # }
+# nolint end
