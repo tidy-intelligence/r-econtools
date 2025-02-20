@@ -4,13 +4,10 @@ on:
   push:
     branches: [main, master]
   pull_request:
-    branches: [main, master]
 
-name: R-CMD-check
+name: R-CMD-check.yaml
 
-permissions:
-  contents: read
-  packages: read
+permissions: read-all
 
 jobs:
   R-CMD-check:
@@ -22,11 +19,11 @@ jobs:
       fail-fast: false
       matrix:
         config:
-          - { os: macos-latest, r: "release" }
-          - { os: windows-latest, r: "release" }
-          - { os: ubuntu-latest, r: "devel", http-user-agent: "release" }
-          - { os: ubuntu-latest, r: "release" }
-          - { os: ubuntu-latest, r: "oldrel-1" }
+          - {os: macos-latest,   r: 'release'}
+          - {os: windows-latest, r: 'release'}
+          - {os: ubuntu-latest,   r: 'devel', http-user-agent: 'release'}
+          - {os: ubuntu-latest,   r: 'release'}
+          - {os: ubuntu-latest,   r: 'oldrel-1'}
 
     env:
       GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
@@ -43,20 +40,12 @@ jobs:
           http-user-agent: ${{ matrix.config.http-user-agent }}
           use-public-rspm: true
 
-      - name: Install wbwdi from GitHub
-        run: |
-          Rscript -e 'install.packages("pak")'
-          Rscript -e 'pak::pkg_install("tidy-intelligence/r-wbwdi")'
-
       - uses: r-lib/actions/setup-r-dependencies@v2
         with:
           extra-packages: any::rcmdcheck
           needs: check
-          pak-version: devel
-
-      - uses: r-lib/actions/setup-tinytex@v2
 
       - uses: r-lib/actions/check-r-package@v2
         with:
           upload-snapshots: true
-          args: 'c("--no-manual","--no-examples")'
+          build_args: 'c("--no-manual","--compact-vignettes=gs+qpdf")'
