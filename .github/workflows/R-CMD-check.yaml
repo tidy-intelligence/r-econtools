@@ -43,6 +43,11 @@ jobs:
           http-user-agent: ${{ matrix.config.http-user-agent }}
           use-public-rspm: true
 
+      - name: Install wbwdi from GitHub
+        run: |
+          Rscript -e 'install.packages("pak")'
+          Rscript -e 'pak::pkg_install("tidy-intelligence/r-wbwdi")'
+
       - uses: r-lib/actions/setup-r-dependencies@v2
         with:
           extra-packages: any::rcmdcheck
