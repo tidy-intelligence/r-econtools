@@ -1,113 +1,147 @@
 # Add functions ----------------------------------------------------------
-
+#' Add Population Column to Country Data
+#' @param 
+#' @return
+#' @examples
+#' @export
 add_population_column <- function(
-  df, id_column, id_type = "regex", date_column = NULL, target_column = "population", update_data = FALSE
+  df, id_column, id_type = "iso3_code", date_column = NULL, target_column = "population"
 ) {
+  add_generic_column(df, id_column, id_type, date_column, target_column, get_population)
+}
 
-  validate_add_column_params(df, id_column, id_type, date_column = NULL)
+#' Add Poverty Ratio Column to Country Data
+#' @param 
+#' @return
+#' @examples
+#' @export
+add_poverty_ratio_column <- function(
+  df, id_column, id_type = "iso3_code", date_column = NULL, target_column = "poverty_ratio"
+) {
+  add_generic_column(df, id_column, id_type, date_column, target_column, get_poverty_ratio)
+}
 
-  population <- get_population(
-    most_recent_only = ifelse(is.null(date_column), TRUE, FALSE)
+#' Add Population Density Column to Country Data
+#' @param 
+#' @return
+#' @examples
+#' @export
+add_population_density_column <- function(
+  df, id_column, id_type = "iso3_code", date_column = NULL, target_column = "population_density"
+) {
+  add_generic_column(df, id_column, id_type, date_column, target_column, get_population_density)
+}
+
+#' @keywords internal
+#' @noRd
+#'
+add_generic_column <- function(
+  df, id_column, id_type, date_column, target_column, data_fetcher
+) {
+  validate_add_column_params(df, id_column, id_type, date_column)
+
+  geographies <- unique(df[id_column])
+  data <- data_fetcher(
+    geographies,
+    most_recent_only = is.null(date_column)
   ) |> 
-    dplyr::rename(id = "iso_code", year = "merge_year", "population" = target_column)
+    dplyr::rename(!!target_column := value)
 
+  id_col_sym <- sym(id_column)
   if (is.null(date_column)) {
-    population <- population |> 
-      dplyr::select(-"merge_year")
-    df <- df |> 
-      dplyr::left_join(population, by = c(id_column = id))
+    data <- data |> select(-"year")
+    df <- df |> left_join(data, by = set_names("id", as_name(id_col_sym)))
   } else {
-    df <- df |> 
-      dplyr::left_join(population, by = c(id_column = "id", date_column = "merge_year"))
+    date_col_sym <- sym(date_column)
+    df <- df |> left_join(data, by = set_names(c("id", "year"), c(as_name(id_col_sym), as_name(date_col_sym))))
   }
-  
+
   df
 }
 
-add_poverty_ratio_column <- function(
-  df, id_column, id_type = "regex", date_column = NULL, target_column = "poverty_ratio", update_data = FALSE
-) {
-  validate_add_column_params(df, id_column, id_type, date_column)
+# TODO: wait for imfweo package
+# add_gdp_column <- function(
+#   df, id_column, id_type = "regex", date_column = NULL, target_column = "gdp", usd = TRUE, include_estimates = FALSE
+# ) {
 
-}
+#   validate_add_column_params(df, id_column, id_type, date_column)
 
-add_population_density_column <- function(
-  df, id_column, id_type = "regex", date_column = NULL, target_column = "population_density", update_data = FALSE
-) {
+# }
 
-  validate_add_column_params(df, id_column, id_type, date_column)
+# TODO: wait for imfweo package
+# add_gov_expenditure_column <- function(
+#   df, id_column, id_type = "regex", date_column = NULL, target_column = "gov_exp", usd = TRUE, include_estimates = FALSE
+# ) {
 
-}
+#   validate_add_column_params(df, id_column, id_type, date_column)
 
-add_gdp_column <- function(
-  df, id_column, id_type = "regex", date_column = NULL, target_column = "gdp", update_data = FALSE, usd = TRUE, include_estimates = FALSE
-) {
+# }
 
-  validate_add_column_params(df, id_column, id_type, date_column)
+# TODO: wait for imfweo package
+# add_gdp_share_column <- function(
+#   df, id_column, id_type = "regex", date_column = NULL, value_column = "value", target_column = "gdp_share", include_estimates = FALSE, usd = FALSE
+# ) {
 
-}
+#   validate_add_column_params(df, id_column, id_type, date_column)
 
-add_gov_expenditure_column <- function(
-  df, id_column, id_type = "regex", date_column = NULL, target_column = "gov_exp", update_data = FALSE, usd = TRUE, include_estimates = FALSE
-) {
+# }
 
-  validate_add_column_params(df, id_column, id_type, date_column)
-
-}
-
-add_gdp_share_column <- function(
-  df, id_column, id_type = "regex", date_column = NULL, value_column = "value", target_column = "gdp_share", update_data = FALSE, include_estimates = FALSE, usd = FALSE
-) {
-
-  validate_add_column_params(df, id_column, id_type, date_column)
-
-}
-
+#' Add Population Share Column to Country Data
+#' @param 
+#' @return
+#' @examples
+#' @export
 add_population_share_column <- function(
-  df, id_column, id_type = "regex", date_column = NULL, value_column = "value", target_column = "population_share", update_data = FALSE, include_estimates = FALSE
+  df, id_column, id_type = "regex", date_column = NULL, value_column = "value", target_column = "population_share", include_estimates = FALSE
 ) {
 
   validate_add_column_params(df, id_column, id_type, date_column)
 
+  df <- add_generic_column(df, id_column, id_type, date_column, "population", get_population)
+  df[target_column] <- df[value_column] / df["population"]
+  df
 }
 
-add_gov_exp_share_column <- function(
-  df, id_column, id_type = NULL, date_column = NULL, value_column = "value", target_column = "gov_exp_share", update_data = FALSE, include_estimates = FALSE, usd = FALSE
-) {
+# TODO: wait for imfweo package
+# add_gov_exp_share_column <- function(
+#   df, id_column, id_type = NULL, date_column = NULL, value_column = "value", target_column = "gov_exp_share", include_estimates = FALSE, usd = FALSE
+# ) {
 
-  validate_add_column_params(df, id_column, id_type, date_column)
+#   validate_add_column_params(df, id_column, id_type, date_column)
 
-}
+# }
 
 add_income_level_column <- function(
-  df, id_column, id_type = "regex", target_column = "income_level", update_data = FALSE
+  df, id_column, id_type = "regex", target_column = "income_level"
 ) {
 
   validate_add_column_params(df, id_column, id_type)
 
 }
 
-add_short_names_column <- function(
-  df, id_column, id_type = NULL, target_column = "name_short"
-) {
+# TODO: wait for econid package
+# add_short_names_column <- function(
+#   df, id_column, id_type = NULL, target_column = "name_short"
+# ) {
 
-  validate_add_column_params(df, id_column, id_type)
+#   validate_add_column_params(df, id_column, id_type)
 
-}
+# }
 
-add_iso3_codes_column <- function(
-  df, id_column, id_type = NULL, target_column = "iso3_code"
-) {
+# TODO: wait for econid package
+# add_iso3_codes_column <- function(
+#   df, id_column, id_type = NULL, target_column = "iso3_code"
+# ) {
 
-  validate_add_column_params(df, id_column, id_type)
+#   validate_add_column_params(df, id_column, id_type)
 
-}
+# }
 
 # Validators -------------------------------------------------------------
 
 validate_add_column_params <- function(df, id_column, id_type, date_column) {
   validate_id_column(df, id_column)
-  validate_id_type(validate_id_type)
+  validate_id_type(id_type)
   if (!is.null(date_column)) {
     validate_date_column(df, date_column)
   }
@@ -125,7 +159,7 @@ validate_id_column <- function(df, id_column) {
 }
 
 validate_id_type <- function(id_type) {
-  if (!id_type %in% c("regex")) {
+  if (!id_type %in% c("regex", "iso3_code")) {
     cli::cli_abort(
       c("x" = "id_type '{id_type}' not supported")
     )

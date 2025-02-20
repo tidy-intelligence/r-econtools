@@ -15,7 +15,8 @@ Depends:
     R (>= 4.1)
 Imports:
     cli,
-    dplyr (>= 1.0.0)
+    dplyr (>= 1.0.0),
+    wbwdi
 Config/testthat/edition: 3
 URL: https://github.com/tidy-intelligence/econtools, https://tidy-intelligence.github.io/econtools/
 BugReports: https://github.com/tidy-intelligence/econtools/issues

@@ -128,6 +128,16 @@
       ],
       "Hash": "0f14199bbd820a9fca398f2df40994f1"
     },
+    "jsonlite": {
+      "Package": "jsonlite",
+      "Version": "1.8.9",
+      "Source": "Repository",
+      "Repository": "CRAN",
+      "Requirements": [
+        "methods"
+      ],
+      "Hash": "4e993b65c2c3ffbffce7bb3e2c6f832b"
+    },
     "lifecycle": {
       "Package": "lifecycle",
       "Version": "1.0.4",
@@ -354,25 +364,26 @@
     },
     "wbwdi": {
       "Package": "wbwdi",
-      "Version": "0.2.0",
+      "Version": "0.2.0.9000",
       "Source": "GitHub",
       "RemoteType": "github",
       "RemoteHost": "api.github.com",
       "RemoteRepo": "r-wbwdi",
       "RemoteUsername": "tidy-intelligence",
       "RemotePkgRef": "tidy-intelligence/r-wbwdi",
-      "RemoteSha": "a3701e302a43273c76d797c5dba14cf615f6d3f8",
+      "RemoteSha": "6aff0a412d636791230de0166993a9f4ecd66b2a",
       "Requirements": [
         "R",
         "cli",
         "dplyr",
         "httr2",
+        "jsonlite",
         "purrr",
         "rlang",
         "tibble",
         "tidyr"
       ],
-      "Hash": "0ba39056d90add7badeef5f99ad8c570"
+      "Hash": "902618586a8d426439119b88b52279aa"
     },
     "withr": {
       "Package": "withr",
