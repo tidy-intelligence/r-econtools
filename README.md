@@ -92,7 +92,7 @@ add_poverty_ratio_column(df, id_column = "geography_id", date_column = "year")
 ```
 
 Create a new column that calculates a value relative to the population,
-for instance gdp per capita:
+for instance GDP per capita:
 
 ``` r
 add_population_share_column(df, id_column = "geography_id", date_column = "year", value_column = "gdp")
