@@ -12,6 +12,30 @@ add_population_column(
   target_column = "population"
 )
 }
+\arguments{
+\item{df}{A data frame containing country identifiers.}
+
+\item{id_column}{Name of the column containing country identifiers.}
+
+\item{id_type}{Type of country identifier. Defaults to "iso3_code".}
+
+\item{date_column}{Optional. Name of the column containing dates for time-specific data.}
+
+\item{target_column}{Name of the output column. Defaults to "population".}
+}
+\value{
+A data frame with an additional column containing population data.
+}
 \description{
 Add Population Column to Country Data
+}
+\examples{
+# Add population data using ISO3 codes
+df <- data.frame(country = c("USA", "CAN", "MEX"))
+result <- add_population_column(df, id_column = "country")
+
+# Add population data with specific dates
+df <- data.frame(country = c("USA", "CAN"), year = c(2019, 2020))
+result <- add_population_column(df, id_column = "country", date_column = "year")
+
 }

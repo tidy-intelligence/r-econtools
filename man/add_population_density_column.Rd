@@ -12,6 +12,20 @@ add_population_density_column(
   target_column = "population_density"
 )
 }
+\arguments{
+\item{df}{A data frame containing country identifiers.}
+
+\item{id_column}{Name of the column containing country identifiers.}
+
+\item{id_type}{Type of country identifier. Defaults to "iso3_code".}
+
+\item{date_column}{Optional. Name of the column containing dates for time-specific data.}
+
+\item{target_column}{Name of the output column. Defaults to "population_density".}
+}
+\value{
+A data frame with an additional column containing population density data.
+}
 \description{
 Add Population Density Column to Country Data
 }

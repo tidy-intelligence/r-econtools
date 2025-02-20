@@ -4,7 +4,7 @@
 #'
 get_population <- function(geographies, most_recent_only) {
   wbwdi::wdi_get(geographies = geographies, indicators = "SP.POP.TOTL", most_recent_only = most_recent_only) |> 
-    select(id = geography_id, year, value)
+    select(id = "geography_id", "year", "value")
 }
 
 #' @keywords internal
@@ -12,7 +12,7 @@ get_population <- function(geographies, most_recent_only) {
 #'
 get_poverty_ratio <- function(geographies, most_recent_only) {
   wbwdi::wdi_get(geographies = geographies, indicators = "SI.POV.DDAY", most_recent_only = most_recent_only)  |> 
-    select(id = geography_id, year, value)
+    select(id = "geography_id", "year", "value")
 }
 
 #' @keywords internal
@@ -20,7 +20,7 @@ get_poverty_ratio <- function(geographies, most_recent_only) {
 #'
 get_population_density <- function(geographies, most_recent_only) {
   wbwdi::wdi_get(geographies = geographies, indicators = "EN.POP.DNST", most_recent_only = most_recent_only) |> 
-    select(id = geography_id, year, value)
+    select(id = "geography_id", "year", "value")
 }
 
 #' @keywords internal
@@ -28,7 +28,8 @@ get_population_density <- function(geographies, most_recent_only) {
 #'
 get_income_levels <- function(geographies) {
   wbwdi::wdi_get_geographies() |> 
-    select(id = geography_id, income_level_id, income_level_name)
+    select(id = "geography_id", "income_level_id", "income_level_name") |> 
+    filter(.data$id %in% geographies)
 }
 
 # get_gdp <- function(geographies, usd = TRUE) {

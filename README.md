@@ -88,3 +88,15 @@ add_population_share_column(df, id_column = "geography_id", date_column = "year"
 #> 4          USA 2022 2.60e+13  333271411         78014.49
 #> 5          USA 2023 2.77e+13  334914895         82707.58
 ```
+
+Add income levels via:
+
+``` r
+add_income_level_column(df, id_column = "geography_id")
+#>   geography_id year      gdp income_level_id income_level_name
+#> 1          USA 2019 2.15e+13             HIC       High income
+#> 2          USA 2020 2.14e+13             HIC       High income
+#> 3          USA 2021 2.37e+13             HIC       High income
+#> 4          USA 2022 2.60e+13             HIC       High income
+#> 5          USA 2023 2.77e+13             HIC       High income
+```

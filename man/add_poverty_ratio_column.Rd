@@ -12,6 +12,20 @@ add_poverty_ratio_column(
   target_column = "poverty_ratio"
 )
 }
+\arguments{
+\item{df}{A data frame containing country identifiers.}
+
+\item{id_column}{Name of the column containing country identifiers.}
+
+\item{id_type}{Type of country identifier. Defaults to "iso3_code".}
+
+\item{date_column}{Optional. Name of the column containing dates for time-specific data.}
+
+\item{target_column}{Name of the output column. Defaults to "poverty_ratio".}
+}
+\value{
+A data frame with an additional column containing poverty ratio data.
+}
 \description{
 Add Poverty Ratio Column to Country Data
 }
