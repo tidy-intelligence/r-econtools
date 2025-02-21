@@ -90,18 +90,19 @@ add_generic_column <- function(
   ) |>
     dplyr::rename(!!target_column := "value")
 
-  id_col_sym <- sym(id_column)
+  id_col_sym <- rlang::sym(id_column)
   if (is.null(date_column)) {
-    data <- data |> select(-"year")
+    data <- data |>
+      dplyr::select(-"year")
     df <- df |>
-      left_join(
+      dplyr::left_join(
         data,
         by = set_names("id", as_name(id_col_sym))
       )
   } else {
-    date_col_sym <- sym(date_column)
+    date_col_sym <- rlang::sym(date_column)
     df <- df |>
-      left_join(
+      dplyr::left_join(
         data,
         by = set_names(
           c("id", "year"), c(as_name(id_col_sym), as_name(date_col_sym))
@@ -160,9 +161,9 @@ add_income_level_column <- function(
   geographies <- unique(unlist(df[id_column]))
   income_levels <- get_income_levels(geographies)
 
-  id_col_sym <- sym(id_column)
+  id_col_sym <- rlang::sym(id_column)
   df <- df |>
-    left_join(
+    dplyr::left_join(
       income_levels,
       by = set_names("id", as_name(id_col_sym))
     )
@@ -194,6 +195,11 @@ validate_id_column <- function(df, id_column) {
       c("x" = "id_column '{id_column}' not in dataframe columns")
     )
   } else {
+    if (anyNA(df[id_column])) {
+      cli::cli_warn(
+        c("i" = "id_column '{id_column}' contains missing values")
+      )
+    }
     invisible(TRUE)
   }
 }
@@ -220,6 +226,11 @@ validate_date_column <- function(df, date_column) {
       c("x" = "date_column '{date_column}' not in dataframe columns")
     )
   } else {
+    if (any(df[date_column] < 0)) {
+      cli::cli_warn(
+        c("i" = "date_column '{date_column}' contains negative values")
+      )
+    }
     invisible(TRUE)
   }
 }

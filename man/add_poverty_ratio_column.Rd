@@ -19,7 +19,8 @@ add_poverty_ratio_column(
 
 \item{id_type}{Type of country identifier. Defaults to "iso3_code".}
 
-\item{date_column}{Optional. Name of the column containing dates for time-specific data.}
+\item{date_column}{Optional. Name of the column containing dates for
+time-specific data.}
 
 \item{target_column}{Name of the output column. Defaults to "poverty_ratio".}
 }

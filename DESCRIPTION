@@ -16,9 +16,12 @@ Depends:
 Imports:
     cli,
     dplyr (>= 1.0.0),
-    rlang
+    rlang,
+    wbwdi
 Config/testthat/edition: 3
 URL: https://github.com/tidy-intelligence/econtools, https://tidy-intelligence.github.io/econtools/
 BugReports: https://github.com/tidy-intelligence/econtools/issues
 Remotes: 
     github::tidy-intelligence/r-wbwdi
+Suggests: 
+    testthat (>= 3.0.0)

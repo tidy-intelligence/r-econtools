@@ -19,12 +19,15 @@ add_population_density_column(
 
 \item{id_type}{Type of country identifier. Defaults to "iso3_code".}
 
-\item{date_column}{Optional. Name of the column containing dates for time-specific data.}
+\item{date_column}{Optional. Name of the column containing dates for
+time-specific data.}
 
-\item{target_column}{Name of the output column. Defaults to "population_density".}
+\item{target_column}{Name of the output column. Defaults to
+"population_density".}
 }
 \value{
-A data frame with an additional column containing population density data.
+A data frame with an additional column containing population density
+data.
 }
 \description{
 Add Population Density Column to Country Data

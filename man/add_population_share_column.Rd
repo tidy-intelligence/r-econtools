@@ -20,14 +20,18 @@ add_population_share_column(
 
 \item{id_type}{Type of country identifier. Defaults to "iso3_code".}
 
-\item{date_column}{Optional. Name of the column containing dates for time-specific data.}
+\item{date_column}{Optional. Name of the column containing dates for
+time-specific data.}
 
-\item{value_column}{Name of the column containing the value to divided by population.}
+\item{value_column}{Name of the column containing the value to divided by
+population.}
 
-\item{target_column}{Name of the output column. Defaults to "population_share".}
+\item{target_column}{Name of the output column. Defaults to
+"population_share".}
 }
 \value{
-A data frame with an additional column containing a new column with a value divided by population.
+A data frame with an additional column containing a new column with a
+value divided by population.
 }
 \description{
 Add Population Share Column to Country Data

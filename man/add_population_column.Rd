@@ -19,7 +19,8 @@ add_population_column(
 
 \item{id_type}{Type of country identifier. Defaults to "iso3_code".}
 
-\item{date_column}{Optional. Name of the column containing dates for time-specific data.}
+\item{date_column}{Optional. Name of the column containing dates for
+time-specific data.}
 
 \item{target_column}{Name of the output column. Defaults to "population".}
 }
@@ -36,6 +37,8 @@ result <- add_population_column(df, id_column = "country")
 
 # Add population data with specific dates
 df <- data.frame(country = c("USA", "CAN"), year = c(2019, 2020))
-result <- add_population_column(df, id_column = "country", date_column = "year")
+result <- add_population_column(
+ df, id_column = "country", date_column = "year"
+)
 
 }

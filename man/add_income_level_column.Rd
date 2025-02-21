@@ -21,7 +21,8 @@ add_income_level_column(
 \item{target_column}{Name of the output column. Defaults to "income_level".}
 }
 \value{
-A data frame with a additional columns containing the income level ID and name.
+A data frame with a additional columns containing the income level ID
+and name.
 }
 \description{
 Add Income Levels to Country Data
