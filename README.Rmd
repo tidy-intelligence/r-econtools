@@ -26,8 +26,8 @@ The goal of econtools is to provide tools for analyzing economic data similar to
 Roadmap:
 
 - [x] Using [wbwdi](https://github.com/tidy-intelligence/r-wbwdi): adding `add_population_column()`, `add_poverty_ratio_column()`, `add_population_density_column()`, `add_population_share_column()`, `add_income_level_column()`
-- [ ] Using [imfweo](https://github.com/Teal-Insights/imfweo): adding `add_gdp_column()`, `add_gov_expenditure_column()`, `add_gdp_share_column()`, `add_gov_exp_share_column()`
 - [ ] Using [econid](https://github.com/Teal-Insights/r-econid): introducing `id_type="regex"` to all existing functions and adding `add_short_names_column()`, `add_iso3_codes_column()`
+- [ ] Using [imfweo](https://github.com/Teal-Insights/imfweo): adding `add_gdp_column()`, `add_gov_expenditure_column()`, `add_gdp_share_column()`, `add_gov_exp_share_column()`
 
 ## Installation
 
@@ -48,7 +48,7 @@ library(econtools)
 
 ```{r}
 df <- data.frame(
-  entitiy_id = rep("USA", 5),
+  entity_id = rep("USA", 5),
   year = 2019:2023,
   gdp = c(2.15e13, 2.14e13, 2.37e13, 2.60e13, 2.77e13)
 )
@@ -56,26 +56,26 @@ df <- data.frame(
 
 Add most recent population number:
 ```{r}
-add_population_column(df, id_column = "entitiy_id")
+add_population_column(df, id_column = "entity_id")
 ```
 
 Add population by year:
 
 ```{r}
-add_population_column(df, id_column = "entitiy_id", date_column = "year")
+add_population_column(df, id_column = "entity_id", date_column = "year")
 ```
 
 Similarly, for poverty ratio:
 ```{r}
-add_poverty_ratio_column(df, id_column = "entitiy_id", date_column = "year")
+add_poverty_ratio_column(df, id_column = "entity_id", date_column = "year")
 ```
 
 Create a new column that calculates a value relative to the population, for instance GDP per capita:
 ```{r}
-add_population_share_column(df, id_column = "entitiy_id", date_column = "year", value_column = "gdp")
+add_population_share_column(df, id_column = "entity_id", date_column = "year", value_column = "gdp")
 ```
 
 Add income levels via:
 ```{r}
-add_income_level_column(df, id_column = "entitiy_id")
+add_income_level_column(df, id_column = "entity_id")
 ```

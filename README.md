@@ -22,12 +22,12 @@ Roadmap:
   adding `add_population_column()`, `add_poverty_ratio_column()`,
   `add_population_density_column()`, `add_population_share_column()`,
   `add_income_level_column()`
-- [ ] Using [imfweo](https://github.com/Teal-Insights/imfweo): adding
-  `add_gdp_column()`, `add_gov_expenditure_column()`,
-  `add_gdp_share_column()`, `add_gov_exp_share_column()`
 - [ ] Using [econid](https://github.com/Teal-Insights/r-econid):
   introducing `id_type="regex"` to all existing functions and adding
   `add_short_names_column()`, `add_iso3_codes_column()`
+- [ ] Using [imfweo](https://github.com/Teal-Insights/imfweo): adding
+  `add_gdp_column()`, `add_gov_expenditure_column()`,
+  `add_gdp_share_column()`, `add_gov_exp_share_column()`
 
 ## Installation
 
@@ -49,7 +49,7 @@ library(econtools)
 
 ``` r
 df <- data.frame(
-  entitiy_id = rep("USA", 5),
+  entity_id = rep("USA", 5),
   year = 2019:2023,
   gdp = c(2.15e13, 2.14e13, 2.37e13, 2.60e13, 2.77e13)
 )
@@ -58,60 +58,60 @@ df <- data.frame(
 Add most recent population number:
 
 ``` r
-add_population_column(df, id_column = "entitiy_id")
-#>   entitiy_id year      gdp population
-#> 1        USA 2019 2.15e+13  334914895
-#> 2        USA 2020 2.14e+13  334914895
-#> 3        USA 2021 2.37e+13  334914895
-#> 4        USA 2022 2.60e+13  334914895
-#> 5        USA 2023 2.77e+13  334914895
+add_population_column(df, id_column = "entity_id")
+#>   entity_id year      gdp population
+#> 1       USA 2019 2.15e+13  334914895
+#> 2       USA 2020 2.14e+13  334914895
+#> 3       USA 2021 2.37e+13  334914895
+#> 4       USA 2022 2.60e+13  334914895
+#> 5       USA 2023 2.77e+13  334914895
 ```
 
 Add population by year:
 
 ``` r
-add_population_column(df, id_column = "entitiy_id", date_column = "year")
-#>   entitiy_id year      gdp population
-#> 1        USA 2019 2.15e+13  328329953
-#> 2        USA 2020 2.14e+13  331526933
-#> 3        USA 2021 2.37e+13  332048977
-#> 4        USA 2022 2.60e+13  333271411
-#> 5        USA 2023 2.77e+13  334914895
+add_population_column(df, id_column = "entity_id", date_column = "year")
+#>   entity_id year      gdp population
+#> 1       USA 2019 2.15e+13  328329953
+#> 2       USA 2020 2.14e+13  331526933
+#> 3       USA 2021 2.37e+13  332048977
+#> 4       USA 2022 2.60e+13  333271411
+#> 5       USA 2023 2.77e+13  334914895
 ```
 
 Similarly, for poverty ratio:
 
 ``` r
-add_poverty_ratio_column(df, id_column = "entitiy_id", date_column = "year")
-#>   entitiy_id year      gdp poverty_ratio
-#> 1        USA 2019 2.15e+13           1.0
-#> 2        USA 2020 2.14e+13           0.2
-#> 3        USA 2021 2.37e+13           0.2
-#> 4        USA 2022 2.60e+13           1.2
-#> 5        USA 2023 2.77e+13            NA
+add_poverty_ratio_column(df, id_column = "entity_id", date_column = "year")
+#>   entity_id year      gdp poverty_ratio
+#> 1       USA 2019 2.15e+13           1.0
+#> 2       USA 2020 2.14e+13           0.2
+#> 3       USA 2021 2.37e+13           0.2
+#> 4       USA 2022 2.60e+13           1.2
+#> 5       USA 2023 2.77e+13            NA
 ```
 
 Create a new column that calculates a value relative to the population,
 for instance GDP per capita:
 
 ``` r
-add_population_share_column(df, id_column = "entitiy_id", date_column = "year", value_column = "gdp")
-#>   entitiy_id year      gdp population population_share
-#> 1        USA 2019 2.15e+13  328329953         65482.91
-#> 2        USA 2020 2.14e+13  331526933         64549.81
-#> 3        USA 2021 2.37e+13  332048977         71375.01
-#> 4        USA 2022 2.60e+13  333271411         78014.49
-#> 5        USA 2023 2.77e+13  334914895         82707.58
+add_population_share_column(df, id_column = "entity_id", date_column = "year", value_column = "gdp")
+#>   entity_id year      gdp population population_share
+#> 1       USA 2019 2.15e+13  328329953         65482.91
+#> 2       USA 2020 2.14e+13  331526933         64549.81
+#> 3       USA 2021 2.37e+13  332048977         71375.01
+#> 4       USA 2022 2.60e+13  333271411         78014.49
+#> 5       USA 2023 2.77e+13  334914895         82707.58
 ```
 
 Add income levels via:
 
 ``` r
-add_income_level_column(df, id_column = "entitiy_id")
-#>   entitiy_id year      gdp income_level_id income_level_name
-#> 1        USA 2019 2.15e+13             HIC       High income
-#> 2        USA 2020 2.14e+13             HIC       High income
-#> 3        USA 2021 2.37e+13             HIC       High income
-#> 4        USA 2022 2.60e+13             HIC       High income
-#> 5        USA 2023 2.77e+13             HIC       High income
+add_income_level_column(df, id_column = "entity_id")
+#>   entity_id year      gdp income_level_id income_level_name
+#> 1       USA 2019 2.15e+13             HIC       High income
+#> 2       USA 2020 2.14e+13             HIC       High income
+#> 3       USA 2021 2.37e+13             HIC       High income
+#> 4       USA 2022 2.60e+13             HIC       High income
+#> 5       USA 2023 2.77e+13             HIC       High income
 ```
