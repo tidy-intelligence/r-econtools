@@ -1,59 +1,60 @@
-
 #' @keywords internal
 #' @noRd
 #'
-get_population <- function(geographies, most_recent_only) {
+get_population <- function(entities, most_recent_only) {
   wbwdi::wdi_get(
-    geographies = geographies,
+    entities = entities,
     indicators = "SP.POP.TOTL",
     most_recent_only = most_recent_only
   ) |>
-    dplyr::select(id = "geography_id", "year", "value")
+    dplyr::select(id = "entity_id", "year", "value")
 }
 
 #' @keywords internal
 #' @noRd
 #'
-get_poverty_ratio <- function(geographies, most_recent_only) {
+get_poverty_ratio <- function(entities, most_recent_only) {
   wbwdi::wdi_get(
-    geographies = geographies,
+    entities = entities,
     indicators = "SI.POV.DDAY",
     most_recent_only = most_recent_only
-  )  |>
-    dplyr::select(id = "geography_id", "year", "value")
+  ) |>
+    dplyr::select(id = "entity_id", "year", "value")
 }
 
 #' @keywords internal
 #' @noRd
 #'
-get_population_density <- function(geographies, most_recent_only) {
+get_population_density <- function(entities, most_recent_only) {
   wbwdi::wdi_get(
-    geographies = geographies,
+    entities = entities,
     indicators = "EN.POP.DNST",
     most_recent_only = most_recent_only
   ) |>
-    dplyr::select(id = "geography_id", "year", "value")
+    dplyr::select(id = "entity_id", "year", "value")
 }
 
 #' @keywords internal
 #' @noRd
 #'
-get_income_levels <- function(geographies) {
-  wbwdi::wdi_get_geographies() |>
+get_income_levels <- function(entities) {
+  wbwdi::wdi_get_entities() |>
     dplyr::select(
-      id = "geography_id", "income_level_id", "income_level_name"
+      id = "entity_id",
+      "income_level_id",
+      "income_level_name"
     ) |>
-    dplyr::filter(.data$id %in% geographies)
+    dplyr::filter(.data$id %in% entities)
 }
 
 # nolint start
-# get_gdp <- function(geographies, usd = TRUE) {
-  # indicator = ifelse(usd, "NGDPD", "NGDP") 
-  # imfweo::weo_get(indicator)
+# get_gdp <- function(entities, usd = TRUE) {
+# indicator = ifelse(usd, "NGDPD", "NGDP")
+# imfweo::weo_get(indicator)
 # }
 
-# get_gov_expenditure <- function(geographies, usd = TRUE) {
-  # indicator = "GGX_NGDP"
-  # imfweo::weo_get(indicator)
+# get_gov_expenditure <- function(entities, usd = TRUE) {
+# indicator = "GGX_NGDP"
+# imfweo::weo_get(indicator)
 # }
 # nolint end
