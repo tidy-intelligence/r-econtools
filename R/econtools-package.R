@@ -2,6 +2,7 @@
 #' @import dplyr
 #' @import cli
 #' @import wbwdi
+#' @import econid
 "_PACKAGE"
 
 ## usethis namespace: start

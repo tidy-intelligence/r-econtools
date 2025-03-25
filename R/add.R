@@ -27,7 +27,12 @@ add_population_column <- function(
   target_column = "population"
 ) {
   add_generic_column(
-    df, id_column, id_type, date_column, target_column, get_population
+    df,
+    id_column,
+    id_type,
+    date_column,
+    target_column,
+    get_population
   )
 }
 
@@ -48,7 +53,12 @@ add_poverty_ratio_column <- function(
   target_column = "poverty_ratio"
 ) {
   add_generic_column(
-    df, id_column, id_type, date_column, target_column, get_poverty_ratio
+    df,
+    id_column,
+    id_type,
+    date_column,
+    target_column,
+    get_poverty_ratio
   )
 }
 
@@ -71,7 +81,12 @@ add_population_density_column <- function(
   target_column = "population_density"
 ) {
   add_generic_column(
-    df, id_column, id_type, date_column, target_column, get_population_density
+    df,
+    id_column,
+    id_type,
+    date_column,
+    target_column,
+    get_population_density
   )
 }
 
@@ -79,35 +94,57 @@ add_population_density_column <- function(
 #' @noRd
 #'
 add_generic_column <- function(
-  df, id_column, id_type, date_column, target_column, data_fetcher
+  df,
+  id_column,
+  id_type,
+  date_column,
+  target_column,
+  data_fetcher
 ) {
   validate_add_column_params(df, id_column, id_type, date_column)
 
-  geographies <- unique(unlist(df[id_column]))
+  id_col_sym <- rlang::sym(id_column)
+
+  if (id_type == "regex") {
+    cli::cli_abort(
+      "x" = "{.arg id_column} is not allowed to be named `entity_id` for regex."
+    )
+
+    id_mapping <- econid::standardize_entity(
+      df,
+      entity,
+      output_cols = "entity_id"
+    ) |>
+      dplyr::distinct(!!id_col_sym, entity_id)
+
+    df <- dplyr::left_join(
+      df,
+      id_mapping,
+      by = set_names("id", rlang::as_name(id_col_sym))
+    )
+    join_id <- "entity_id"
+  } else {
+    join_id <- rlang::as_name(id_col_sym)
+  }
+
+  entities <- unique(df[[join_id]])
+
   data <- data_fetcher(
-    geographies,
+    entities,
     most_recent_only = is.null(date_column)
   ) |>
     dplyr::rename(!!target_column := "value")
 
-  id_col_sym <- rlang::sym(id_column)
   if (is.null(date_column)) {
-    data <- data |>
-      dplyr::select(-"year")
-    df <- df |>
-      dplyr::left_join(
-        data,
-        by = set_names("id", as_name(id_col_sym))
-      )
+    data <- dplyr::select(data, -"year")
+    df <- dplyr::left_join(df, data, by = set_names("id", join_id))
   } else {
     date_col_sym <- rlang::sym(date_column)
-    df <- df |>
-      dplyr::left_join(
-        data,
-        by = set_names(
-          c("id", "year"), c(as_name(id_col_sym), as_name(date_col_sym))
-        )
-      )
+    df <- dplyr::left_join(
+      df,
+      data,
+      by = set_names(c("id", "year"), c(join_id, rlang::as_name(date_col_sym)))
+    )
   }
 
   df
@@ -134,11 +171,15 @@ add_population_share_column <- function(
   value_column = "value",
   target_column = "population_share"
 ) {
-
   validate_add_column_params(df, id_column, id_type, date_column)
 
   df <- add_generic_column(
-    df, id_column, id_type, date_column, "population", get_population
+    df,
+    id_column,
+    id_type,
+    date_column,
+    "population",
+    get_population
   )
   df[target_column] <- df[value_column] / df["population"]
   df
@@ -153,9 +194,11 @@ add_population_share_column <- function(
 #'  and name.
 #' @export
 add_income_level_column <- function(
-  df, id_column, id_type = "iso3_code", target_column = "income_level"
+  df,
+  id_column,
+  id_type = "iso3_code",
+  target_column = "income_level"
 ) {
-
   validate_add_column_params(df, id_column, id_type)
 
   geographies <- unique(unlist(df[id_column]))
@@ -176,7 +219,10 @@ add_income_level_column <- function(
 #' @noRd
 #'
 validate_add_column_params <- function(
-  df, id_column, id_type, date_column = NULL
+  df,
+  id_column,
+  id_type,
+  date_column = NULL
 ) {
   validate_id_column(df, id_column)
   validate_id_type(id_type)
@@ -208,7 +254,7 @@ validate_id_column <- function(df, id_column) {
 #' @noRd
 #'
 validate_id_type <- function(id_type) {
-  if (!id_type %in% c("iso3_code")) {
+  if (!id_type %in% c("iso3_code", "regex")) {
     cli::cli_abort(
       c("x" = "id_type '{id_type}' not supported")
     )
@@ -239,7 +285,7 @@ validate_date_column <- function(df, date_column) {
 # nolint start
 # TODO: wait for imfweo package
 # add_gdp_column <- function(
-#   df, id_column, id_type = "iso3_code", date_column = NULL, 
+#   df, id_column, id_type = "iso3_code", date_column = NULL,
 #   target_column = "gdp", usd = TRUE, include_estimates = FALSE
 # ) {
 #   validate_add_column_params(df, id_column, id_type, date_column)
@@ -247,7 +293,7 @@ validate_date_column <- function(df, date_column) {
 
 # TODO: wait for imfweo package
 # add_gov_expenditure_column <- function(
-#   df, id_column, id_type = "iso3_code", date_column = NULL, 
+#   df, id_column, id_type = "iso3_code", date_column = NULL,
 #   target_column = "gov_exp", usd = TRUE, include_estimates = FALSE
 # ) {
 #   validate_add_column_params(df, id_column, id_type, date_column)
@@ -255,8 +301,8 @@ validate_date_column <- function(df, date_column) {
 
 # TODO: wait for imfweo package
 # add_gdp_share_column <- function(
-#   df, id_column, id_type = "iso3_code", date_column = NULL, 
-#   value_column = "value", target_column = "gdp_share", 
+#   df, id_column, id_type = "iso3_code", date_column = NULL,
+#   value_column = "value", target_column = "gdp_share",
 #   include_estimates = FALSE, usd = FALSE
 # ) {
 #   validate_add_column_params(df, id_column, id_type, date_column)
@@ -265,7 +311,7 @@ validate_date_column <- function(df, date_column) {
 # TODO: wait for imfweo package
 # add_gov_exp_share_column <- function(
 #   df, id_column, id_type = "iso3_code", date_column = NULL,
-#   value_column = "value", target_column = "gov_exp_share", 
+#   value_column = "value", target_column = "gov_exp_share",
 #   include_estimates = FALSE, usd = FALSE
 # ) {
 #   validate_add_column_params(df, id_column, id_type, date_column)
@@ -298,6 +344,6 @@ validate_date_column <- function(df, date_column) {
 
 # add_value_as_share <- function(
 #   df, value_col, share_of_value_col, target_col = NULL
-# ) { 
+# ) {
 # }
 # nolint end
