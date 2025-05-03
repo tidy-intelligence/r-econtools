@@ -122,7 +122,7 @@ test_that("add_iso3_codes_column errors if id_column is 'entity_id'", {
   )
 })
 
-test_that("add_population_column works with regex id_type and name variations", {
+test_that("add_population_column works with regex id_type & name variations", {
   skip_if_offline()
   df <- data.frame(
     id = rep("USA", 5),
@@ -144,7 +144,7 @@ test_that("add_population_column works with regex id_type and name variations", 
   expect_type(result$population, "double")
 })
 
-test_that("add_population_column errors when id_column is 'entity_id' and id_type is 'regex'", {
+test_that("add_population_column errors when id_column is 'entity_id'", {
   df <- data.frame(
     entity_id = rep("usa", 3),
     year = 2020:2022,
