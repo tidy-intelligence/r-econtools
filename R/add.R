@@ -109,10 +109,12 @@ add_generic_column <- function(
     if (id_column == "entity_id") {
       cli::cli_abort(
         c(
-          "x" = "{.arg id_column} is not allowed to be named `entity_id` for regex."
+          "x" = paste0(
+            "{.arg id_column} is not allowed to be named ",
+            "`entity_id` for regex."
+          )
         )
       )
-      return(invisible(NULL))
     }
 
     id_mapping <- econid::standardize_entity(
@@ -238,7 +240,6 @@ add_short_names_column <- function(
         "x" = "{.arg id_column} is not allowed to be named `entity_id`."
       )
     )
-    return(invisible(NULL))
   }
 
   id_col_sym <- rlang::sym(id_column)
@@ -279,7 +280,6 @@ add_iso3_codes_column <- function(
         "x" = "{.arg id_column} is not allowed to be named `entity_id`."
       )
     )
-    return(invisible(NULL))
   }
 
   id_col_sym <- rlang::sym(id_column)
