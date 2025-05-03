@@ -23,10 +23,12 @@ knitr::opts_chunk$set(
 
 The goal of econtools is to provide tools for analyzing economic data similar to the Python [bblocks](https://github.com/ONEcampaign/bblocks/tree/main) package.
 
+The package is part of the [econdataverse](https://www.econdataverse.org/) family of packages aimed at helping economists and financial professionals work with sovereign-level economic data.
+
 Roadmap:
 
 - [x] Using [wbwdi](https://github.com/tidy-intelligence/r-wbwdi): adding `add_population_column()`, `add_poverty_ratio_column()`, `add_population_density_column()`, `add_population_share_column()`, `add_income_level_column()`
-- [ ] Using [econid](https://github.com/Teal-Insights/r-econid): introducing `id_type="regex"` to all existing functions and adding `add_short_names_column()`, `add_iso3_codes_column()`
+- [x] Using [econid](https://github.com/Teal-Insights/r-econid): introducing `id_type="regex"` to all existing functions and adding `add_short_names_column()`, `add_iso3_codes_column()`
 - [ ] Using [imfweo](https://github.com/Teal-Insights/imfweo): adding `add_gdp_column()`, `add_gov_expenditure_column()`, `add_gdp_share_column()`, `add_gov_exp_share_column()`
 
 ## Installation
@@ -48,34 +50,60 @@ library(econtools)
 
 ```{r}
 df <- data.frame(
-  entity_id = rep("USA", 5),
+  id = rep("USA", 5),
+  name = c("United States", "United.states", "US", "USA", "United States"),
   year = 2019:2023,
   gdp = c(2.15e13, 2.14e13, 2.37e13, 2.60e13, 2.77e13)
 )
 ```
 
+The simplest way to add additional information is using an ISO 3166-1 alpha-3 code.
+
 Add most recent population number:
 ```{r}
-add_population_column(df, id_column = "entity_id")
+add_population_column(df, id_column = "id")
 ```
 
 Add population by year:
 
 ```{r}
-add_population_column(df, id_column = "entity_id", date_column = "year")
+add_population_column(df, id_column = "id", date_column = "year")
 ```
 
 Similarly, for poverty ratio:
 ```{r}
-add_poverty_ratio_column(df, id_column = "entity_id", date_column = "year")
+add_poverty_ratio_column(df, id_column = "id", date_column = "year")
 ```
 
 Create a new column that calculates a value relative to the population, for instance GDP per capita:
 ```{r}
-add_population_share_column(df, id_column = "entity_id", date_column = "year", value_column = "gdp")
+add_population_share_column(
+  df,
+  id_column = "id",
+  date_column = "year",
+  value_column = "gdp"
+)
 ```
 
 Add income levels via:
 ```{r}
-add_income_level_column(df, id_column = "entity_id")
+add_income_level_column(df, id_column = "id")
+```
+
+If you want to use another column and automatically map identifiers to a new `entity_id` column using the `econid` package:
+
+```{r}
+add_population_column(df, id_column = "name", id_type = "regex")
+```
+
+If you only want to add ISO-3 codes:
+
+```{r}
+add_iso3_codes_column(df, "name")
+```
+
+You can also add a column with standardized names:
+
+```{r}
+add_short_names_column(df, "name")
 ```
