@@ -22,7 +22,7 @@
 
     <a class="navbar-brand me-2" href="index.html">econtools</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.0.0.9000</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.0.0.9002</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -51,10 +51,11 @@
 <!-- badges: start -->
 
 <p>The goal of econtools is to provide tools for analyzing economic data similar to the Python <a href="https://github.com/ONEcampaign/bblocks/tree/main" class="external-link">bblocks</a> package.</p>
+<p>The package is part of the <a href="https://www.econdataverse.org/" class="external-link">econdataverse</a> family of packages aimed at helping economists and financial professionals work with sovereign-level economic data.</p>
 <p>Roadmap:</p>
 <ul class="task-list">
 <li><label><input type="checkbox" checked>Using <a href="https://github.com/tidy-intelligence/r-wbwdi" class="external-link">wbwdi</a>: adding <code><a href="reference/add_population_column.html">add_population_column()</a></code>, <code><a href="reference/add_poverty_ratio_column.html">add_poverty_ratio_column()</a></code>, <code><a href="reference/add_population_density_column.html">add_population_density_column()</a></code>, <code><a href="reference/add_population_share_column.html">add_population_share_column()</a></code>, <code><a href="reference/add_income_level_column.html">add_income_level_column()</a></code></label></li>
-<li><label><input type="checkbox">Using <a href="https://github.com/Teal-Insights/r-econid" class="external-link">econid</a>: introducing <code>id_type="regex"</code> to all existing functions and adding <code>add_short_names_column()</code>, <code>add_iso3_codes_column()</code></label></li>
+<li><label><input type="checkbox" checked>Using <a href="https://github.com/Teal-Insights/r-econid" class="external-link">econid</a>: introducing <code>id_type="regex"</code> to all existing functions and adding <code><a href="reference/add_short_names_column.html">add_short_names_column()</a></code>, <code><a href="reference/add_iso3_codes_column.html">add_iso3_codes_column()</a></code></label></li>
 <li><label><input type="checkbox">Using <a href="https://github.com/Teal-Insights/imfweo" class="external-link">imfweo</a>: adding <code>add_gdp_column()</code>, <code>add_gov_expenditure_column()</code>, <code>add_gdp_share_column()</code>, <code>add_gov_exp_share_column()</code></label></li>
 </ul>
 <div class="section level2">
@@ -73,55 +74,89 @@
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/tidy-intelligence/r-econtools" class="external-link">econtools</a></span><span class="op">)</span></span></code></pre></div>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">df</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span></span>
-<span>  entity_id <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="st">"USA"</span>, <span class="fl">5</span><span class="op">)</span>,</span>
+<span>  id <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="st">"USA"</span>, <span class="fl">5</span><span class="op">)</span>,</span>
+<span>  name <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"United States"</span>, <span class="st">"United.states"</span>, <span class="st">"US"</span>, <span class="st">"USA"</span>, <span class="st">"United States"</span><span class="op">)</span>,</span>
 <span>  year <span class="op">=</span> <span class="fl">2019</span><span class="op">:</span><span class="fl">2023</span>,</span>
 <span>  gdp <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">2.15e13</span>, <span class="fl">2.14e13</span>, <span class="fl">2.37e13</span>, <span class="fl">2.60e13</span>, <span class="fl">2.77e13</span><span class="op">)</span></span>
 <span><span class="op">)</span></span></code></pre></div>
+<p>The simplest way to add additional information is using an ISO 3166-1 alpha-3 code.</p>
 <p>Add most recent population number:</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="reference/add_population_column.html">add_population_column</a></span><span class="op">(</span><span class="va">df</span>, id_column <span class="op">=</span> <span class="st">"entity_id"</span><span class="op">)</span></span>
-<span><span class="co">#&gt;   entity_id year      gdp population</span></span>
-<span><span class="co">#&gt; 1       USA 2019 2.15e+13  334914895</span></span>
-<span><span class="co">#&gt; 2       USA 2020 2.14e+13  334914895</span></span>
-<span><span class="co">#&gt; 3       USA 2021 2.37e+13  334914895</span></span>
-<span><span class="co">#&gt; 4       USA 2022 2.60e+13  334914895</span></span>
-<span><span class="co">#&gt; 5       USA 2023 2.77e+13  334914895</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="reference/add_population_column.html">add_population_column</a></span><span class="op">(</span><span class="va">df</span>, id_column <span class="op">=</span> <span class="st">"id"</span><span class="op">)</span></span>
+<span><span class="co">#&gt;    id          name year      gdp population</span></span>
+<span><span class="co">#&gt; 1 USA United States 2019 2.15e+13  334914895</span></span>
+<span><span class="co">#&gt; 2 USA United.states 2020 2.14e+13  334914895</span></span>
+<span><span class="co">#&gt; 3 USA            US 2021 2.37e+13  334914895</span></span>
+<span><span class="co">#&gt; 4 USA           USA 2022 2.60e+13  334914895</span></span>
+<span><span class="co">#&gt; 5 USA United States 2023 2.77e+13  334914895</span></span></code></pre></div>
 <p>Add population by year:</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="reference/add_population_column.html">add_population_column</a></span><span class="op">(</span><span class="va">df</span>, id_column <span class="op">=</span> <span class="st">"entity_id"</span>, date_column <span class="op">=</span> <span class="st">"year"</span><span class="op">)</span></span>
-<span><span class="co">#&gt;   entity_id year      gdp population</span></span>
-<span><span class="co">#&gt; 1       USA 2019 2.15e+13  328329953</span></span>
-<span><span class="co">#&gt; 2       USA 2020 2.14e+13  331526933</span></span>
-<span><span class="co">#&gt; 3       USA 2021 2.37e+13  332048977</span></span>
-<span><span class="co">#&gt; 4       USA 2022 2.60e+13  333271411</span></span>
-<span><span class="co">#&gt; 5       USA 2023 2.77e+13  334914895</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="reference/add_population_column.html">add_population_column</a></span><span class="op">(</span><span class="va">df</span>, id_column <span class="op">=</span> <span class="st">"id"</span>, date_column <span class="op">=</span> <span class="st">"year"</span><span class="op">)</span></span>
+<span><span class="co">#&gt;    id          name year      gdp population</span></span>
+<span><span class="co">#&gt; 1 USA United States 2019 2.15e+13  328329953</span></span>
+<span><span class="co">#&gt; 2 USA United.states 2020 2.14e+13  331526933</span></span>
+<span><span class="co">#&gt; 3 USA            US 2021 2.37e+13  332048977</span></span>
+<span><span class="co">#&gt; 4 USA           USA 2022 2.60e+13  333271411</span></span>
+<span><span class="co">#&gt; 5 USA United States 2023 2.77e+13  334914895</span></span></code></pre></div>
 <p>Similarly, for poverty ratio:</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="reference/add_poverty_ratio_column.html">add_poverty_ratio_column</a></span><span class="op">(</span><span class="va">df</span>, id_column <span class="op">=</span> <span class="st">"entity_id"</span>, date_column <span class="op">=</span> <span class="st">"year"</span><span class="op">)</span></span>
-<span><span class="co">#&gt;   entity_id year      gdp poverty_ratio</span></span>
-<span><span class="co">#&gt; 1       USA 2019 2.15e+13           1.0</span></span>
-<span><span class="co">#&gt; 2       USA 2020 2.14e+13           0.2</span></span>
-<span><span class="co">#&gt; 3       USA 2021 2.37e+13           0.2</span></span>
-<span><span class="co">#&gt; 4       USA 2022 2.60e+13           1.2</span></span>
-<span><span class="co">#&gt; 5       USA 2023 2.77e+13            NA</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="reference/add_poverty_ratio_column.html">add_poverty_ratio_column</a></span><span class="op">(</span><span class="va">df</span>, id_column <span class="op">=</span> <span class="st">"id"</span>, date_column <span class="op">=</span> <span class="st">"year"</span><span class="op">)</span></span>
+<span><span class="co">#&gt;    id          name year      gdp poverty_ratio</span></span>
+<span><span class="co">#&gt; 1 USA United States 2019 2.15e+13           1.0</span></span>
+<span><span class="co">#&gt; 2 USA United.states 2020 2.14e+13           0.2</span></span>
+<span><span class="co">#&gt; 3 USA            US 2021 2.37e+13           0.2</span></span>
+<span><span class="co">#&gt; 4 USA           USA 2022 2.60e+13           1.2</span></span>
+<span><span class="co">#&gt; 5 USA United States 2023 2.77e+13            NA</span></span></code></pre></div>
 <p>Create a new column that calculates a value relative to the population, for instance GDP per capita:</p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="reference/add_population_share_column.html">add_population_share_column</a></span><span class="op">(</span><span class="va">df</span>, id_column <span class="op">=</span> <span class="st">"entity_id"</span>, date_column <span class="op">=</span> <span class="st">"year"</span>, value_column <span class="op">=</span> <span class="st">"gdp"</span><span class="op">)</span></span>
-<span><span class="co">#&gt;   entity_id year      gdp population population_share</span></span>
-<span><span class="co">#&gt; 1       USA 2019 2.15e+13  328329953         65482.91</span></span>
-<span><span class="co">#&gt; 2       USA 2020 2.14e+13  331526933         64549.81</span></span>
-<span><span class="co">#&gt; 3       USA 2021 2.37e+13  332048977         71375.01</span></span>
-<span><span class="co">#&gt; 4       USA 2022 2.60e+13  333271411         78014.49</span></span>
-<span><span class="co">#&gt; 5       USA 2023 2.77e+13  334914895         82707.58</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="reference/add_population_share_column.html">add_population_share_column</a></span><span class="op">(</span></span>
+<span>  <span class="va">df</span>,</span>
+<span>  id_column <span class="op">=</span> <span class="st">"id"</span>,</span>
+<span>  date_column <span class="op">=</span> <span class="st">"year"</span>,</span>
+<span>  value_column <span class="op">=</span> <span class="st">"gdp"</span></span>
+<span><span class="op">)</span></span>
+<span><span class="co">#&gt;    id          name year      gdp population population_share</span></span>
+<span><span class="co">#&gt; 1 USA United States 2019 2.15e+13  328329953         65482.91</span></span>
+<span><span class="co">#&gt; 2 USA United.states 2020 2.14e+13  331526933         64549.81</span></span>
+<span><span class="co">#&gt; 3 USA            US 2021 2.37e+13  332048977         71375.01</span></span>
+<span><span class="co">#&gt; 4 USA           USA 2022 2.60e+13  333271411         78014.49</span></span>
+<span><span class="co">#&gt; 5 USA United States 2023 2.77e+13  334914895         82707.58</span></span></code></pre></div>
 <p>Add income levels via:</p>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="reference/add_income_level_column.html">add_income_level_column</a></span><span class="op">(</span><span class="va">df</span>, id_column <span class="op">=</span> <span class="st">"entity_id"</span><span class="op">)</span></span>
-<span><span class="co">#&gt;   entity_id year      gdp income_level_id income_level_name</span></span>
-<span><span class="co">#&gt; 1       USA 2019 2.15e+13             HIC       High income</span></span>
-<span><span class="co">#&gt; 2       USA 2020 2.14e+13             HIC       High income</span></span>
-<span><span class="co">#&gt; 3       USA 2021 2.37e+13             HIC       High income</span></span>
-<span><span class="co">#&gt; 4       USA 2022 2.60e+13             HIC       High income</span></span>
-<span><span class="co">#&gt; 5       USA 2023 2.77e+13             HIC       High income</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="reference/add_income_level_column.html">add_income_level_column</a></span><span class="op">(</span><span class="va">df</span>, id_column <span class="op">=</span> <span class="st">"id"</span><span class="op">)</span></span>
+<span><span class="co">#&gt;    id          name year      gdp income_level_id income_level_name</span></span>
+<span><span class="co">#&gt; 1 USA United States 2019 2.15e+13             HIC       High income</span></span>
+<span><span class="co">#&gt; 2 USA United.states 2020 2.14e+13             HIC       High income</span></span>
+<span><span class="co">#&gt; 3 USA            US 2021 2.37e+13             HIC       High income</span></span>
+<span><span class="co">#&gt; 4 USA           USA 2022 2.60e+13             HIC       High income</span></span>
+<span><span class="co">#&gt; 5 USA United States 2023 2.77e+13             HIC       High income</span></span></code></pre></div>
+<p>If you want to use another column and automatically map identifiers to a new <code>entity_id</code> column using the <code>econid</code> package:</p>
+<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="reference/add_population_column.html">add_population_column</a></span><span class="op">(</span><span class="va">df</span>, id_column <span class="op">=</span> <span class="st">"name"</span>, id_type <span class="op">=</span> <span class="st">"regex"</span><span class="op">)</span></span>
+<span><span class="co">#&gt;    id          name year      gdp entity_id population</span></span>
+<span><span class="co">#&gt; 1 USA United States 2019 2.15e+13       USA  334914895</span></span>
+<span><span class="co">#&gt; 2 USA United.states 2020 2.14e+13       USA  334914895</span></span>
+<span><span class="co">#&gt; 3 USA            US 2021 2.37e+13       USA  334914895</span></span>
+<span><span class="co">#&gt; 4 USA           USA 2022 2.60e+13       USA  334914895</span></span>
+<span><span class="co">#&gt; 5 USA United States 2023 2.77e+13       USA  334914895</span></span></code></pre></div>
+<p>If you only want to add ISO-3 codes:</p>
+<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="reference/add_iso3_codes_column.html">add_iso3_codes_column</a></span><span class="op">(</span><span class="va">df</span>, <span class="st">"name"</span><span class="op">)</span></span>
+<span><span class="co">#&gt;    id          name year      gdp iso3_code</span></span>
+<span><span class="co">#&gt; 1 USA United States 2019 2.15e+13       USA</span></span>
+<span><span class="co">#&gt; 2 USA United.states 2020 2.14e+13       USA</span></span>
+<span><span class="co">#&gt; 3 USA            US 2021 2.37e+13       USA</span></span>
+<span><span class="co">#&gt; 4 USA           USA 2022 2.60e+13       USA</span></span>
+<span><span class="co">#&gt; 5 USA United States 2023 2.77e+13       USA</span></span></code></pre></div>
+<p>You can also add a column with standardized names:</p>
+<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="reference/add_short_names_column.html">add_short_names_column</a></span><span class="op">(</span><span class="va">df</span>, <span class="st">"name"</span><span class="op">)</span></span>
+<span><span class="co">#&gt;    id          name year      gdp    short_name</span></span>
+<span><span class="co">#&gt; 1 USA United States 2019 2.15e+13 United States</span></span>
+<span><span class="co">#&gt; 2 USA United.states 2020 2.14e+13 United States</span></span>
+<span><span class="co">#&gt; 3 USA            US 2021 2.37e+13 United States</span></span>
+<span><span class="co">#&gt; 4 USA           USA 2022 2.60e+13 United States</span></span>
+<span><span class="co">#&gt; 5 USA United States 2023 2.77e+13 United States</span></span></code></pre></div>
 </div>
 </div>
   </main><aside class="col-md-3"><div class="links">
@@ -151,7 +186,7 @@
 <div class="developers">
 <h2 data-toc-skip>Developers</h2>
 <ul class="list-unstyled">
-<li>Christoph Scheuch <br><small class="roles"> Author, maintainer, copyright holder </small> <a href="https://orcid.org/0009-0004-0423-6819" target="orcid.widget" aria-label="ORCID" class="external-link"><span class="fab fa-orcid orcid" aria-hidden="true"></span></a> </li>
+<li>Christoph Scheuch <br><small class="roles"> Author, maintainer, copyright holder </small> <a href="https://orcid.org/0009-0004-0423-6819" target="orcid.widget" aria-label="ORCID" class="external-link"><span class="fab fa-orcid orcid" aria-hidden="true"></span></a>  </li>
 </ul>
 </div>
 
@@ -171,7 +206,7 @@
 </div>
 
 <div class="pkgdown-footer-right">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.2.</p>
 </div>
 
     </footer>
