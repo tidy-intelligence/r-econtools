@@ -11,9 +11,9 @@ A collection of tools to facilitate the analysis of economic data.
 \seealso{
 Useful links:
 \itemize{
-  \item \url{https://github.com/tidy-intelligence/econtools}
-  \item \url{https://tidy-intelligence.github.io/econtools/}
-  \item Report bugs at \url{https://github.com/tidy-intelligence/econtools/issues}
+  \item \url{https://github.com/tidy-intelligence/r-econtools}
+  \item \url{https://tidy-intelligence.github.io/r-econtools/}
+  \item Report bugs at \url{https://github.com/tidy-intelligence/r-econtools/issues}
 }
 
 }

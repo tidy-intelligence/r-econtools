@@ -28,7 +28,7 @@ The package is part of the [econdataverse](https://www.econdataverse.org/) famil
 Roadmap:
 
 - [x] Using [wbwdi](https://github.com/tidy-intelligence/r-wbwdi): adding `add_population_column()`, `add_poverty_ratio_column()`, `add_population_density_column()`, `add_population_share_column()`, `add_income_level_column()`
-- [ ] Using [econid](https://github.com/Teal-Insights/r-econid): introducing `id_type="regex"` to all existing functions and adding `add_short_names_column()`, `add_iso3_codes_column()`
+- [x] Using [econid](https://github.com/Teal-Insights/r-econid): introducing `id_type="regex"` to all existing functions and adding `add_short_names_column()`, `add_iso3_codes_column()`
 - [ ] Using [imfweo](https://github.com/Teal-Insights/imfweo): adding `add_gdp_column()`, `add_gov_expenditure_column()`, `add_gdp_share_column()`, `add_gov_exp_share_column()`
 
 ## Installation
@@ -72,23 +72,38 @@ add_population_column(df, id_column = "id", date_column = "year")
 
 Similarly, for poverty ratio:
 ```{r}
-add_poverty_ratio_column(df, id_column = "entity_id", date_column = "year")
+add_poverty_ratio_column(df, id_column = "id", date_column = "year")
 ```
 
 Create a new column that calculates a value relative to the population, for instance GDP per capita:
 ```{r}
-add_population_share_column(df, id_column = "entity_id", date_column = "year", value_column = "gdp")
+add_population_share_column(
+  df,
+  id_column = "id",
+  date_column = "year",
+  value_column = "gdp"
+)
 ```
 
 Add income levels via:
 ```{r}
-add_income_level_column(df, id_column = "entity_id")
+add_income_level_column(df, id_column = "id")
 ```
 
-If you want to use another column 
-
+If you want to use another column and automatically map identifiers to a new `entity_id` column using the `econid` package:
 
 ```{r}
-df |> 
-  standardize_entity(name)
+add_population_column(df, id_column = "name", id_type = "regex")
+```
+
+If you only want to add ISO-3 codes:
+
+```{r}
+add_iso3_codes_column(df, "name")
+```
+
+You can also add a column with standardized names:
+
+```{r}
+add_short_names_column(df, "name")
 ```

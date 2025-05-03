@@ -106,21 +106,26 @@ add_generic_column <- function(
   id_col_sym <- rlang::sym(id_column)
 
   if (id_type == "regex") {
-    cli::cli_abort(
-      "x" = "{.arg id_column} is not allowed to be named `entity_id` for regex."
-    )
+    if (id_column == "entity_id") {
+      cli::cli_abort(
+        c(
+          "x" = "{.arg id_column} is not allowed to be named `entity_id` for regex."
+        )
+      )
+      return(invisible(NULL))
+    }
 
     id_mapping <- econid::standardize_entity(
       df,
-      entity,
+      !!id_col_sym,
       output_cols = "entity_id"
     ) |>
-      dplyr::distinct(!!id_col_sym, entity_id)
+      dplyr::distinct(!!id_col_sym, .data$entity_id)
 
     df <- dplyr::left_join(
       df,
       id_mapping,
-      by = set_names("id", rlang::as_name(id_col_sym))
+      by = rlang::as_name(id_col_sym)
     )
     join_id <- "entity_id"
   } else {
@@ -213,72 +218,87 @@ add_income_level_column <- function(
   df
 }
 
-# Validators -------------------------------------------------------------
 
-#' @keywords internal
-#' @noRd
-#'
-validate_add_column_params <- function(
+#' Add Short Names to Country Data
+#' @param df A data frame containing country identifiers.
+#' @param id_column Name of the column containing country identifiers.
+#' @param target_column Name of the output column. Defaults to "name_short".
+#' @return A data frame with an additional column containing the short names.
+#' @export
+add_short_names_column <- function(
   df,
   id_column,
-  id_type,
-  date_column = NULL
+  target_column = "name_short"
 ) {
   validate_id_column(df, id_column)
-  validate_id_type(id_type)
-  if (!is.null(date_column)) {
-    validate_date_column(df, date_column)
-  }
-  invisible(TRUE)
-}
 
-#' @keywords internal
-#' @noRd
-#'
-validate_id_column <- function(df, id_column) {
-  if (!id_column %in% colnames(df)) {
+  if (id_column == "entity_id") {
     cli::cli_abort(
-      c("x" = "id_column '{id_column}' not in dataframe columns")
-    )
-  } else {
-    if (anyNA(df[id_column])) {
-      cli::cli_warn(
-        c("i" = "id_column '{id_column}' contains missing values")
+      c(
+        "x" = "{.arg id_column} is not allowed to be named `entity_id`."
       )
-    }
-    invisible(TRUE)
+    )
+    return(invisible(NULL))
   }
+
+  id_col_sym <- rlang::sym(id_column)
+
+  id_mapping <- econid::standardize_entity(
+    df,
+    !!id_col_sym,
+    output_cols = "entity_name"
+  ) |>
+    dplyr::distinct(!!id_col_sym, .data$entity_name)
+
+  df <- dplyr::left_join(
+    df,
+    id_mapping,
+    by = rlang::as_name(id_col_sym)
+  ) |>
+    rename(short_name = "entity_name")
+
+  df
 }
 
-#' @keywords internal
-#' @noRd
-#'
-validate_id_type <- function(id_type) {
-  if (!id_type %in% c("iso3_code", "regex")) {
-    cli::cli_abort(
-      c("x" = "id_type '{id_type}' not supported")
-    )
-  } else {
-    invisible(TRUE)
-  }
-}
+#' Add ISO-3 Codes to Country Data
+#' @param df A data frame containing country identifiers.
+#' @param id_column Name of the column containing country identifiers.
+#' @param target_column Name of the output column. Defaults to "iso3_code".
+#' @return A data frame with an additional column containing the ISO-3 code.
+#' @export
+add_iso3_codes_column <- function(
+  df,
+  id_column,
+  target_column = "iso3_code"
+) {
+  validate_id_column(df, id_column)
 
-#' @keywords internal
-#' @noRd
-#'
-validate_date_column <- function(df, date_column) {
-  if (!is.null(date_column) && !date_column %in% names(df)) {
+  if (id_column == "entity_id") {
     cli::cli_abort(
-      c("x" = "date_column '{date_column}' not in dataframe columns")
-    )
-  } else {
-    if (any(df[date_column] < 0)) {
-      cli::cli_warn(
-        c("i" = "date_column '{date_column}' contains negative values")
+      c(
+        "x" = "{.arg id_column} is not allowed to be named `entity_id`."
       )
-    }
-    invisible(TRUE)
+    )
+    return(invisible(NULL))
   }
+
+  id_col_sym <- rlang::sym(id_column)
+
+  id_mapping <- econid::standardize_entity(
+    df,
+    !!id_col_sym,
+    output_cols = "iso3c"
+  ) |>
+    dplyr::distinct(!!id_col_sym, .data$iso3c)
+
+  df <- dplyr::left_join(
+    df,
+    id_mapping,
+    by = rlang::as_name(id_col_sym)
+  ) |>
+    rename(iso3_code = "iso3c")
+
+  df
 }
 
 # Backlog ----------------------------------------------------------------
@@ -315,35 +335,5 @@ validate_date_column <- function(df, date_column) {
 #   include_estimates = FALSE, usd = FALSE
 # ) {
 #   validate_add_column_params(df, id_column, id_type, date_column)
-# }
-
-# TODO: wait for econid package
-# add_short_names_column <- function(
-#   df, id_column, id_type = "iso3_code", target_column = "name_short"
-# ) {
-#   validate_add_column_params(df, id_column, id_type)
-# }
-
-# TODO: wait for econid package
-# add_iso3_codes_column <- function(
-#   df, id_column, id_type = "iso3_code", target_column = "iso3_code"
-# ) {
-#   validate_add_column_params(df, id_column, id_type)
-# }
-
-# Maybe drop these functions
-# add_median_observation <- function(
-#   df, group_by = NULL, value_columns = "value", append = TRUE, group_name = NULL
-# ) {
-# }
-
-# add_flourish_geometries <- function(
-#   df, id_column, id_type = "iso3_code", target_column = "geometry"
-# ) {
-# }
-
-# add_value_as_share <- function(
-#   df, value_col, share_of_value_col, target_col = NULL
-# ) {
 # }
 # nolint end
