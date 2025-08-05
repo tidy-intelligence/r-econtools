@@ -55,6 +55,8 @@ df <- data.frame(
   year = 2019:2023,
   gdp = c(2.15e13, 2.14e13, 2.37e13, 2.60e13, 2.77e13)
 )
+
+add_population_column(df, id_column = "name", id_type = "regex")
 ```
 
 The simplest way to add additional information is using an ISO 3166-1 alpha-3 code.
@@ -86,6 +88,7 @@ add_population_share_column(
 ```
 
 Add income levels via:
+
 ```{r}
 add_income_level_column(df, id_column = "id")
 ```
@@ -106,4 +109,22 @@ You can also add a column with standardized names:
 
 ```{r}
 add_short_names_column(df, "name")
+```
+
+Finally, you can add columns from IMF WEO data such as the GDP in local currency
+
+```{r}
+add_gdp_column(df, id_column = "id", date_column = "year", usd = FALSE)
+```
+
+Or the government expenditure (only availbale in local currency): 
+
+```{r}
+add_gov_exp_column(df, id_column = "id", date_column = "year")
+```
+
+And share of government expenditure to GDP: 
+
+```{r}
+add_gov_exp_share_column(df, id_column = "id", date_column = "year")
 ```

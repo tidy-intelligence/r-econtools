@@ -1,6 +1,5 @@
 #' @keywords internal
 #' @noRd
-#'
 get_population <- function(entities, most_recent_only) {
   wbwdi::wdi_get(
     entities = entities,
@@ -12,7 +11,6 @@ get_population <- function(entities, most_recent_only) {
 
 #' @keywords internal
 #' @noRd
-#'
 get_poverty_ratio <- function(entities, most_recent_only) {
   wbwdi::wdi_get(
     entities = entities,
@@ -24,7 +22,6 @@ get_poverty_ratio <- function(entities, most_recent_only) {
 
 #' @keywords internal
 #' @noRd
-#'
 get_population_density <- function(entities, most_recent_only) {
   wbwdi::wdi_get(
     entities = entities,
@@ -36,7 +33,6 @@ get_population_density <- function(entities, most_recent_only) {
 
 #' @keywords internal
 #' @noRd
-#'
 get_income_levels <- function(entities) {
   wbwdi::wdi_get_entities() |>
     dplyr::select(
@@ -47,14 +43,49 @@ get_income_levels <- function(entities) {
     dplyr::filter(.data$id %in% entities)
 }
 
-# nolint start
-# get_gdp <- function(entities, usd = TRUE) {
-# indicator = ifelse(usd, "NGDPD", "NGDP")
-# imfweo::weo_get(indicator)
-# }
+#' @keywords internal
+#' @noRd
+get_gdp <- function(entities, most_recent_only, usd = TRUE) {
+  series <- ifelse(usd, "NGDPD", "NGDP")
+  result <- imfweo::weo_get(entities, series)
+  if (most_recent_only) {
+    result <- filter_most_recent_only(result)
+  }
+  result
+}
 
-# get_gov_expenditure <- function(entities, usd = TRUE) {
-# indicator = "GGX_NGDP"
-# imfweo::weo_get(indicator)
-# }
-# nolint end
+#' @keywords internal
+#' @noRd
+get_gov_exp <- function(entities, most_recent_only) {
+  result <- imfweo::weo_get(entities, "GGX")
+  if (most_recent_only) {
+    result <- filter_most_recent_only(result)
+  }
+  result
+}
+
+#' @keywords internal
+#' @noRd
+get_gov_exp_share <- function(entities, most_recent_only) {
+  result <- imfweo::weo_get(entities, "GGX_NGDP")
+  if (most_recent_only) {
+    result <- filter_most_recent_only(result)
+  }
+  result
+}
+
+#' @keywords internal
+#' @noRd
+current_year <- function() {
+  as.integer(format(Sys.Date(), "%Y"))
+}
+
+#' @keywords internal
+#' @noRd
+filter_most_recent_only <- function(df) {
+  df |>
+    filter(year <= current_year()) |>
+    group_by(entity_id) |>
+    filter(year == max(year)) |>
+    ungroup()
+}

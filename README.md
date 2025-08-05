@@ -59,6 +59,14 @@ df <- data.frame(
   year = 2019:2023,
   gdp = c(2.15e13, 2.14e13, 2.37e13, 2.60e13, 2.77e13)
 )
+
+add_population_column(df, id_column = "name", id_type = "regex")
+#>    id          name year      gdp entity_id population
+#> 1 USA United States 2019 2.15e+13       USA  340110988
+#> 2 USA United.states 2020 2.14e+13       USA  340110988
+#> 3 USA            US 2021 2.37e+13       USA  340110988
+#> 4 USA           USA 2022 2.60e+13       USA  340110988
+#> 5 USA United States 2023 2.77e+13       USA  340110988
 ```
 
 The simplest way to add additional information is using an ISO 3166-1
@@ -69,11 +77,11 @@ Add most recent population number:
 ``` r
 add_population_column(df, id_column = "id")
 #>    id          name year      gdp population
-#> 1 USA United States 2019 2.15e+13  334914895
-#> 2 USA United.states 2020 2.14e+13  334914895
-#> 3 USA            US 2021 2.37e+13  334914895
-#> 4 USA           USA 2022 2.60e+13  334914895
-#> 5 USA United States 2023 2.77e+13  334914895
+#> 1 USA United States 2019 2.15e+13  340110988
+#> 2 USA United.states 2020 2.14e+13  340110988
+#> 3 USA            US 2021 2.37e+13  340110988
+#> 4 USA           USA 2022 2.60e+13  340110988
+#> 5 USA United States 2023 2.77e+13  340110988
 ```
 
 Add population by year:
@@ -81,11 +89,11 @@ Add population by year:
 ``` r
 add_population_column(df, id_column = "id", date_column = "year")
 #>    id          name year      gdp population
-#> 1 USA United States 2019 2.15e+13  328329953
-#> 2 USA United.states 2020 2.14e+13  331526933
-#> 3 USA            US 2021 2.37e+13  332048977
-#> 4 USA           USA 2022 2.60e+13  333271411
-#> 5 USA United States 2023 2.77e+13  334914895
+#> 1 USA United States 2019 2.15e+13  330226227
+#> 2 USA United.states 2020 2.14e+13  331577720
+#> 3 USA            US 2021 2.37e+13  332099760
+#> 4 USA           USA 2022 2.60e+13  334017321
+#> 5 USA United States 2023 2.77e+13  336806231
 ```
 
 Similarly, for poverty ratio:
@@ -94,10 +102,10 @@ Similarly, for poverty ratio:
 add_poverty_ratio_column(df, id_column = "id", date_column = "year")
 #>    id          name year      gdp poverty_ratio
 #> 1 USA United States 2019 2.15e+13           1.0
-#> 2 USA United.states 2020 2.14e+13           0.2
-#> 3 USA            US 2021 2.37e+13           0.2
+#> 2 USA United.states 2020 2.14e+13           0.5
+#> 3 USA            US 2021 2.37e+13           0.5
 #> 4 USA           USA 2022 2.60e+13           1.2
-#> 5 USA United States 2023 2.77e+13            NA
+#> 5 USA United States 2023 2.77e+13           1.2
 ```
 
 Create a new column that calculates a value relative to the population,
@@ -111,11 +119,11 @@ add_population_share_column(
   value_column = "gdp"
 )
 #>    id          name year      gdp population population_share
-#> 1 USA United States 2019 2.15e+13  328329953         65482.91
-#> 2 USA United.states 2020 2.14e+13  331526933         64549.81
-#> 3 USA            US 2021 2.37e+13  332048977         71375.01
-#> 4 USA           USA 2022 2.60e+13  333271411         78014.49
-#> 5 USA United States 2023 2.77e+13  334914895         82707.58
+#> 1 USA United States 2019 2.15e+13  330226227         65106.88
+#> 2 USA United.states 2020 2.14e+13  331577720         64539.92
+#> 3 USA            US 2021 2.37e+13  332099760         71364.10
+#> 4 USA           USA 2022 2.60e+13  334017321         77840.27
+#> 5 USA United States 2023 2.77e+13  336806231         82243.13
 ```
 
 Add income levels via:
@@ -136,11 +144,11 @@ new `entity_id` column using the `econid` package:
 ``` r
 add_population_column(df, id_column = "name", id_type = "regex")
 #>    id          name year      gdp entity_id population
-#> 1 USA United States 2019 2.15e+13       USA  334914895
-#> 2 USA United.states 2020 2.14e+13       USA  334914895
-#> 3 USA            US 2021 2.37e+13       USA  334914895
-#> 4 USA           USA 2022 2.60e+13       USA  334914895
-#> 5 USA United States 2023 2.77e+13       USA  334914895
+#> 1 USA United States 2019 2.15e+13       USA  340110988
+#> 2 USA United.states 2020 2.14e+13       USA  340110988
+#> 3 USA            US 2021 2.37e+13       USA  340110988
+#> 4 USA           USA 2022 2.60e+13       USA  340110988
+#> 5 USA United States 2023 2.77e+13       USA  340110988
 ```
 
 If you only want to add ISO-3 codes:
