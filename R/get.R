@@ -47,7 +47,10 @@ get_income_levels <- function(entities) {
 #' @noRd
 get_gdp <- function(entities, most_recent_only, usd = TRUE) {
   series <- ifelse(usd, "NGDPD", "NGDP")
-  result <- imfweo::weo_get(entities, series)
+  result <- imfweo::weo_get(entities, series) |>
+    dplyr::filter(series_id == series) |>
+    dplyr::select(id = "entity_id", "year", "value") |>
+    dplyr::mutate(value = .data$value * 1e9)
   if (most_recent_only) {
     result <- filter_most_recent_only(result)
   }
@@ -57,7 +60,10 @@ get_gdp <- function(entities, most_recent_only, usd = TRUE) {
 #' @keywords internal
 #' @noRd
 get_gov_exp <- function(entities, most_recent_only) {
-  result <- imfweo::weo_get(entities, "GGX")
+  result <- imfweo::weo_get(entities, "GGX") |>
+    dplyr::filter(series_id == "GGX") |>
+    dplyr::select(id = "entity_id", "year", "value") |>
+    dplyr::mutate(value = .data$value * 1e9)
   if (most_recent_only) {
     result <- filter_most_recent_only(result)
   }
@@ -67,7 +73,10 @@ get_gov_exp <- function(entities, most_recent_only) {
 #' @keywords internal
 #' @noRd
 get_gov_exp_share <- function(entities, most_recent_only) {
-  result <- imfweo::weo_get(entities, "GGX_NGDP")
+  result <- imfweo::weo_get(entities, "GGX_NGDP") |>
+    dplyr::filter(series_id == "GGX_NGDP") |>
+    dplyr::select(id = "entity_id", "year", "value") |>
+    dplyr::mutate(value = .data$value / 100)
   if (most_recent_only) {
     result <- filter_most_recent_only(result)
   }
@@ -84,8 +93,8 @@ current_year <- function() {
 #' @noRd
 filter_most_recent_only <- function(df) {
   df |>
-    filter(year <= current_year()) |>
-    group_by(entity_id) |>
-    filter(year == max(year)) |>
-    ungroup()
+    dplyr::filter(year <= current_year()) |>
+    dplyr::group_by(entity_id) |>
+    dplyr::filter(year == max(year)) |>
+    dplyr::ungroup()
 }
