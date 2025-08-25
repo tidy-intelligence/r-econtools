@@ -19,3 +19,9 @@ A data frame with an additional column containing the short names.
 \description{
 Add Short Names to Country Data
 }
+\examples{
+# Add short names using ISO3 codes
+df <- data.frame(country = c("USA", "FRA", "JPN"))
+result <- add_short_names_column(df, id_column = "country")
+
+}

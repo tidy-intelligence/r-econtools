@@ -1,8 +1,5 @@
-# Validators -------------------------------------------------------------
-
 #' @keywords internal
 #' @noRd
-#'
 validate_add_column_params <- function(
   df,
   id_column,
@@ -19,7 +16,6 @@ validate_add_column_params <- function(
 
 #' @keywords internal
 #' @noRd
-#'
 validate_id_column <- function(df, id_column) {
   if (!id_column %in% colnames(df)) {
     cli::cli_abort(

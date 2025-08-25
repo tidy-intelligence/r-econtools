@@ -34,3 +34,16 @@ A data frame with an additional column containing GDP data.
 \description{
 Add GDP to Country Data
 }
+\examples{
+\dontshow{if (curl::has_internet()) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
+\donttest{
+# Add most recent GDP values
+df <- data.frame(country = c("USA", "CHN", "DEU"))
+result <- add_gdp_column(df, id_column = "country")
+
+# Add year-specific GDP values
+df <- data.frame(country = c("USA", "CHN"), year = c(2019, 2020))
+result <- add_gdp_column(df, id_column = "country", date_column = "year")
+}
+\dontshow{\}) # examplesIf}
+}

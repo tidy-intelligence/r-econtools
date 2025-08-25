@@ -12,7 +12,7 @@ filter_most_recent_only <- function(df) {
     return(df)
   }
   df |>
-    dplyr::group_by(.data$entity_id) |>
+    dplyr::group_by(.data$id) |>
     dplyr::filter(.data$year == max(.data$year)) |>
     dplyr::ungroup()
 }

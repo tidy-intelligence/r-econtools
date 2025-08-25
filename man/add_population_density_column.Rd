@@ -32,3 +32,18 @@ data.
 \description{
 Add Population Density Column to Country Data
 }
+\examples{
+\dontshow{if (curl::has_internet()) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
+\donttest{
+# Add population density using ISO3 codes
+df <- data.frame(country = c("FRA", "DEU", "ESP"))
+result <- add_population_density_column(df, id_column = "country")
+
+# Add population density with year
+df <- data.frame(country = c("FRA", "DEU"), year = c(2015, 2020))
+result <- add_population_density_column(
+  df, id_column = "country", date_column = "year"
+)
+}
+\dontshow{\}) # examplesIf}
+}

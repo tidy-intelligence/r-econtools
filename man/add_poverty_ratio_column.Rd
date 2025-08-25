@@ -30,3 +30,18 @@ A data frame with an additional column containing poverty ratio data.
 \description{
 Add Poverty Ratio Column to Country Data
 }
+\examples{
+\dontshow{if (curl::has_internet()) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
+\donttest{
+# Add poverty ratio using ISO3 codes
+df <- data.frame(country = c("USA", "IND", "BRA"))
+result <- add_poverty_ratio_column(df, id_column = "country")
+
+# Add poverty ratio with specific dates
+df <- data.frame(country = c("USA", "IND"), year = c(2018, 2020))
+result <- add_poverty_ratio_column(
+  df, id_column = "country", date_column = "year"
+)
+}
+\dontshow{\}) # examplesIf}
+}
