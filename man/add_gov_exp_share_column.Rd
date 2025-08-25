@@ -22,10 +22,11 @@ add_gov_exp_share_column(
 \item{date_column}{Optional. Name of the column containing dates for
 time-specific data.}
 
-\item{target_column}{Name of the output column. Defaults to "gov_exp".
-
-#' @return A data frame with an additional column containing government
-expenditure as share of GDP data.}
+\item{target_column}{Name of the output column. Defaults to "gov_exp".}
+}
+\value{
+A data frame with an additional column containing government
+expenditure as share of GDP data.
 }
 \description{
 Add Government Expenditure as Share of GDP to Country Data

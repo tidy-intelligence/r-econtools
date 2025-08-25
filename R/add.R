@@ -394,7 +394,7 @@ add_gov_exp_column <- function(
 #'  time-specific data.
 #' @param target_column Name of the output column. Defaults to "gov_exp".
 #'
-#' #' @return A data frame with an additional column containing government
+#' @return A data frame with an additional column containing government
 #'  expenditure as share of GDP data.
 #'
 #' @export
