@@ -9,7 +9,8 @@
 #'
 #' @return A data frame with an additional column containing population data.
 #'
-#' @examples
+#' @examplesIf curl::has_internet()
+#' \donttest{
 #' # Add population data using ISO3 codes
 #' df <- data.frame(country = c("USA", "CAN", "MEX"))
 #' result <- add_population_column(df, id_column = "country")
@@ -19,6 +20,7 @@
 #' result <- add_population_column(
 #'  df, id_column = "country", date_column = "year"
 #' )
+#' }
 #'
 #' @export
 add_population_column <- function(
@@ -48,6 +50,19 @@ add_population_column <- function(
 #' @param target_column Name of the output column. Defaults to "poverty_ratio".
 #'
 #' @return A data frame with an additional column containing poverty ratio data.
+#'
+#' @examplesIf curl::has_internet()
+#' \donttest{
+#' # Add poverty ratio using ISO3 codes
+#' df <- data.frame(country = c("USA", "IND", "BRA"))
+#' result <- add_poverty_ratio_column(df, id_column = "country")
+#'
+#' # Add poverty ratio with specific dates
+#' df <- data.frame(country = c("USA", "IND"), year = c(2018, 2020))
+#' result <- add_poverty_ratio_column(
+#'   df, id_column = "country", date_column = "year"
+#' )
+#' }
 #'
 #' @export
 add_poverty_ratio_column <- function(
@@ -80,6 +95,19 @@ add_poverty_ratio_column <- function(
 #' @return A data frame with an additional column containing population density
 #'  data.
 #'
+#' @examplesIf curl::has_internet()
+#' \donttest{
+#' # Add population density using ISO3 codes
+#' df <- data.frame(country = c("FRA", "DEU", "ESP"))
+#' result <- add_population_density_column(df, id_column = "country")
+#'
+#' # Add population density with year
+#' df <- data.frame(country = c("FRA", "DEU"), year = c(2015, 2020))
+#' result <- add_population_density_column(
+#'   df, id_column = "country", date_column = "year"
+#' )
+#' }
+#'
 #' @export
 add_population_density_column <- function(
   df,
@@ -100,7 +128,6 @@ add_population_density_column <- function(
 
 #' @keywords internal
 #' @noRd
-#'
 add_generic_column <- function(
   df,
   id_column,
@@ -182,6 +209,25 @@ add_generic_column <- function(
 #' @return A data frame with an additional column containing a new column with a
 #'  value divided by population.
 #'
+#' @examplesIf curl::has_internet()
+#' \donttest{
+#' # Compute value as a share of population
+#' df <- data.frame(country = c("USA", "CAN"), value = c(1000, 2000))
+#' result <- add_population_share_column(
+#'   df, id_column = "country", value_column = "value"
+#' )
+#'
+#' # With year-specific values
+#' df <- data.frame(
+#'   country = c("USA", "CAN"),
+#'   year = c(2019, 2020),
+#'   value = c(1500, 1800)
+#' )
+#' result <- add_population_share_column(
+#'   df, id_column = "country", date_column = "year"
+#' )
+#' }
+#'
 #' @export
 add_population_share_column <- function(
   df,
@@ -215,6 +261,13 @@ add_population_share_column <- function(
 #' @return A data frame with a additional columns containing the income level ID
 #'  and name.
 #'
+#' @examplesIf curl::has_internet()
+#' \donttest{
+#' # Add income levels using ISO3 codes
+#' df <- data.frame(country = c("USA", "NGA", "IND"))
+#' result <- add_income_level_column(df, id_column = "country")
+#' }
+#'
 #' @export
 add_income_level_column <- function(
   df,
@@ -244,6 +297,11 @@ add_income_level_column <- function(
 #' @param target_column Name of the output column. Defaults to "name_short".
 #'
 #' @return A data frame with an additional column containing the short names.
+#'
+#' @examples
+#' # Add short names using ISO3 codes
+#' df <- data.frame(country = c("USA", "FRA", "JPN"))
+#' result <- add_short_names_column(df, id_column = "country")
 #'
 #' @export
 add_short_names_column <- function(
@@ -287,6 +345,11 @@ add_short_names_column <- function(
 #' @param target_column Name of the output column. Defaults to "iso3_code".
 #'
 #' @return A data frame with an additional column containing the ISO-3 code.
+#'
+#' @examples
+#' # Convert country names to ISO3 codes
+#' df <- data.frame(name = c("United States", "Canada", "Mexico"))
+#' result <- add_iso3_codes_column(df, id_column = "name")
 #'
 #' @export
 add_iso3_codes_column <- function(
@@ -336,6 +399,17 @@ add_iso3_codes_column <- function(
 #'
 #' @return A data frame with an additional column containing GDP data.
 #'
+#' @examplesIf curl::has_internet()
+#' \donttest{
+#' # Add most recent GDP values
+#' df <- data.frame(country = c("USA", "CHN", "DEU"))
+#' result <- add_gdp_column(df, id_column = "country")
+#'
+#' # Add year-specific GDP values
+#' df <- data.frame(country = c("USA", "CHN"), year = c(2019, 2020))
+#' result <- add_gdp_column(df, id_column = "country", date_column = "year")
+#' }
+#'
 #' @export
 add_gdp_column <- function(
   df,
@@ -357,6 +431,7 @@ add_gdp_column <- function(
 }
 
 #' Add Government Expenditure to Country Data
+#'
 #' @param df A data frame containing country identifiers.
 #' @param id_column Name of the column containing country identifiers.
 #' @param id_type Type of country identifier. Defaults to "iso3_code".
@@ -366,6 +441,17 @@ add_gdp_column <- function(
 #'
 #' @return A data frame with an additional column containing government
 #'  expenditure data.
+#'
+#' @examplesIf curl::has_internet()
+#' \donttest{
+#' # Add government expenditure
+#' df <- data.frame(country = c("USA", "GBR", "FRA"))
+#' result <- add_gov_exp_column(df, id_column = "country")
+#'
+#' # With years
+#' df <- data.frame(country = c("USA", "GBR"), year = c(2010, 2020))
+#' result <- add_gov_exp_column(df, id_column = "country", date_column = "year")
+#' }
 #'
 #' @export
 add_gov_exp_column <- function(
@@ -396,6 +482,19 @@ add_gov_exp_column <- function(
 #'
 #' @return A data frame with an additional column containing government
 #'  expenditure as share of GDP data.
+#'
+#' @examplesIf curl::has_internet()
+#' \donttest{
+#' # Add government expenditure share of GDP
+#' df <- data.frame(country = c("USA", "JPN", "AUS"))
+#' result <- add_gov_exp_share_column(df, id_column = "country")
+#'
+#' # With specific years
+#' df <- data.frame(country = c("USA", "JPN"), year = c(2015, 2020))
+#' result <- add_gov_exp_share_column(
+#'   df, id_column = "country", date_column = "year"
+#' )
+#' }
 #'
 #' @export
 add_gov_exp_share_column <- function(

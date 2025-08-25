@@ -36,3 +36,24 @@ value divided by population.
 \description{
 Add Population Share Column to Country Data
 }
+\examples{
+\dontshow{if (curl::has_internet()) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
+\donttest{
+# Compute value as a share of population
+df <- data.frame(country = c("USA", "CAN"), value = c(1000, 2000))
+result <- add_population_share_column(
+  df, id_column = "country", value_column = "value"
+)
+
+# With year-specific values
+df <- data.frame(
+  country = c("USA", "CAN"),
+  year = c(2019, 2020),
+  value = c(1500, 1800)
+)
+result <- add_population_share_column(
+  df, id_column = "country", date_column = "year"
+)
+}
+\dontshow{\}) # examplesIf}
+}

@@ -31,3 +31,18 @@ expenditure as share of GDP data.
 \description{
 Add Government Expenditure as Share of GDP to Country Data
 }
+\examples{
+\dontshow{if (curl::has_internet()) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
+\donttest{
+# Add government expenditure share of GDP
+df <- data.frame(country = c("USA", "JPN", "AUS"))
+result <- add_gov_exp_share_column(df, id_column = "country")
+
+# With specific years
+df <- data.frame(country = c("USA", "JPN"), year = c(2015, 2020))
+result <- add_gov_exp_share_column(
+  df, id_column = "country", date_column = "year"
+)
+}
+\dontshow{\}) # examplesIf}
+}

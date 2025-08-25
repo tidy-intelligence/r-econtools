@@ -27,3 +27,12 @@ and name.
 \description{
 Add Income Levels to Country Data
 }
+\examples{
+\dontshow{if (curl::has_internet()) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
+\donttest{
+# Add income levels using ISO3 codes
+df <- data.frame(country = c("USA", "NGA", "IND"))
+result <- add_income_level_column(df, id_column = "country")
+}
+\dontshow{\}) # examplesIf}
+}

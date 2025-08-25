@@ -19,3 +19,9 @@ A data frame with an additional column containing the ISO-3 code.
 \description{
 Add ISO-3 Codes to Country Data
 }
+\examples{
+# Convert country names to ISO3 codes
+df <- data.frame(name = c("United States", "Canada", "Mexico"))
+result <- add_iso3_codes_column(df, id_column = "name")
+
+}

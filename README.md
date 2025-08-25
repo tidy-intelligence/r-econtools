@@ -23,6 +23,12 @@ sovereign-level economic data.
 
 ## Installation
 
+You can install `econtools` from CRAN via:
+
+``` r
+install.packages("imfweo")
+```
+
 You can install the development version of `econtools` from
 [GitHub](https://github.com/) with:
 
