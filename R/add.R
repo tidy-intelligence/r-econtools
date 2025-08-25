@@ -1,12 +1,14 @@
-# Add functions ----------------------------------------------------------
 #' Add Population Column to Country Data
+#'
 #' @param df A data frame containing country identifiers.
 #' @param id_column Name of the column containing country identifiers.
 #' @param id_type Type of country identifier. Defaults to "iso3_code".
 #' @param date_column Optional. Name of the column containing dates for
 #'  time-specific data.
 #' @param target_column Name of the output column. Defaults to "population".
+#'
 #' @return A data frame with an additional column containing population data.
+#'
 #' @examples
 #' # Add population data using ISO3 codes
 #' df <- data.frame(country = c("USA", "CAN", "MEX"))
@@ -37,13 +39,16 @@ add_population_column <- function(
 }
 
 #' Add Poverty Ratio Column to Country Data
+#'
 #' @param df A data frame containing country identifiers.
 #' @param id_column Name of the column containing country identifiers.
 #' @param id_type Type of country identifier. Defaults to "iso3_code".
 #' @param date_column Optional. Name of the column containing dates for
 #'  time-specific data.
 #' @param target_column Name of the output column. Defaults to "poverty_ratio".
+#'
 #' @return A data frame with an additional column containing poverty ratio data.
+#'
 #' @export
 add_poverty_ratio_column <- function(
   df,
@@ -63,6 +68,7 @@ add_poverty_ratio_column <- function(
 }
 
 #' Add Population Density Column to Country Data
+#'
 #' @param df A data frame containing country identifiers.
 #' @param id_column Name of the column containing country identifiers.
 #' @param id_type Type of country identifier. Defaults to "iso3_code".
@@ -70,8 +76,10 @@ add_poverty_ratio_column <- function(
 #'  time-specific data.
 #' @param target_column Name of the output column. Defaults to
 #'  "population_density".
+#'
 #' @return A data frame with an additional column containing population density
 #'  data.
+#'
 #' @export
 add_population_density_column <- function(
   df,
@@ -99,7 +107,8 @@ add_generic_column <- function(
   id_type,
   date_column,
   target_column,
-  data_fetcher
+  data_fetcher,
+  ...
 ) {
   validate_add_column_params(df, id_column, id_type, date_column)
 
@@ -138,7 +147,8 @@ add_generic_column <- function(
 
   data <- data_fetcher(
     entities,
-    most_recent_only = is.null(date_column)
+    most_recent_only = is.null(date_column),
+    ...
   ) |>
     dplyr::rename(!!target_column := "value")
 
@@ -158,6 +168,7 @@ add_generic_column <- function(
 }
 
 #' Add Population Share Column to Country Data
+#'
 #' @param df A data frame containing country identifiers.
 #' @param id_column Name of the column containing country identifiers.
 #' @param id_type Type of country identifier. Defaults to "iso3_code".
@@ -167,8 +178,10 @@ add_generic_column <- function(
 #'  population.
 #' @param target_column Name of the output column. Defaults to
 #'  "population_share".
+#'
 #' @return A data frame with an additional column containing a new column with a
 #'  value divided by population.
+#'
 #' @export
 add_population_share_column <- function(
   df,
@@ -193,12 +206,15 @@ add_population_share_column <- function(
 }
 
 #' Add Income Levels to Country Data
+#'
 #' @param df A data frame containing country identifiers.
 #' @param id_column Name of the column containing country identifiers.
 #' @param id_type Type of country identifier. Defaults to "iso3_code".
 #' @param target_column Name of the output column. Defaults to "income_level".
+#'
 #' @return A data frame with a additional columns containing the income level ID
 #'  and name.
+#'
 #' @export
 add_income_level_column <- function(
   df,
@@ -222,10 +238,13 @@ add_income_level_column <- function(
 
 
 #' Add Short Names to Country Data
+#'
 #' @param df A data frame containing country identifiers.
 #' @param id_column Name of the column containing country identifiers.
 #' @param target_column Name of the output column. Defaults to "name_short".
+#'
 #' @return A data frame with an additional column containing the short names.
+#'
 #' @export
 add_short_names_column <- function(
   df,
@@ -262,10 +281,13 @@ add_short_names_column <- function(
 }
 
 #' Add ISO-3 Codes to Country Data
+#'
 #' @param df A data frame containing country identifiers.
 #' @param id_column Name of the column containing country identifiers.
 #' @param target_column Name of the output column. Defaults to "iso3_code".
+#'
 #' @return A data frame with an additional column containing the ISO-3 code.
+#'
 #' @export
 add_iso3_codes_column <- function(
   df,
@@ -301,39 +323,94 @@ add_iso3_codes_column <- function(
   df
 }
 
-# Backlog ----------------------------------------------------------------
-# nolint start
-# TODO: wait for imfweo package
-# add_gdp_column <- function(
-#   df, id_column, id_type = "iso3_code", date_column = NULL,
-#   target_column = "gdp", usd = TRUE, include_estimates = FALSE
-# ) {
-#   validate_add_column_params(df, id_column, id_type, date_column)
-# }
+#' Add GDP to Country Data
+#'
+#' @param df A data frame containing country identifiers.
+#' @param id_column Name of the column containing country identifiers.
+#' @param id_type Type of country identifier. Defaults to "iso3_code".
+#' @param date_column Optional. Name of the column containing dates for
+#'  time-specific data.
+#' @param target_column Name of the output column. Defaults to "gdp".
+#' @param usd Logical. Indicates whether GDP should be in USD or local currency.
+#'  Defaults to "TRUE".
+#'
+#' @return A data frame with an additional column containing GDP data.
+#'
+#' @export
+add_gdp_column <- function(
+  df,
+  id_column,
+  id_type = "iso3_code",
+  date_column = NULL,
+  target_column = "gdp",
+  usd = TRUE
+) {
+  add_generic_column(
+    df,
+    id_column,
+    id_type,
+    date_column,
+    target_column,
+    get_gdp,
+    usd = usd
+  )
+}
 
-# TODO: wait for imfweo package
-# add_gov_expenditure_column <- function(
-#   df, id_column, id_type = "iso3_code", date_column = NULL,
-#   target_column = "gov_exp", usd = TRUE, include_estimates = FALSE
-# ) {
-#   validate_add_column_params(df, id_column, id_type, date_column)
-# }
+#' Add Government Expenditure to Country Data
+#' @param df A data frame containing country identifiers.
+#' @param id_column Name of the column containing country identifiers.
+#' @param id_type Type of country identifier. Defaults to "iso3_code".
+#' @param date_column Optional. Name of the column containing dates for
+#'  time-specific data.
+#' @param target_column Name of the output column. Defaults to "gov_exp".
+#'
+#' @return A data frame with an additional column containing government
+#'  expenditure data.
+#'
+#' @export
+add_gov_exp_column <- function(
+  df,
+  id_column,
+  id_type = "iso3_code",
+  date_column = NULL,
+  target_column = "gov_exp"
+) {
+  add_generic_column(
+    df,
+    id_column,
+    id_type,
+    date_column,
+    target_column,
+    get_gov_exp
+  )
+}
 
-# TODO: wait for imfweo package
-# add_gdp_share_column <- function(
-#   df, id_column, id_type = "iso3_code", date_column = NULL,
-#   value_column = "value", target_column = "gdp_share",
-#   include_estimates = FALSE, usd = FALSE
-# ) {
-#   validate_add_column_params(df, id_column, id_type, date_column)
-# }
-
-# TODO: wait for imfweo package
-# add_gov_exp_share_column <- function(
-#   df, id_column, id_type = "iso3_code", date_column = NULL,
-#   value_column = "value", target_column = "gov_exp_share",
-#   include_estimates = FALSE, usd = FALSE
-# ) {
-#   validate_add_column_params(df, id_column, id_type, date_column)
-# }
-# nolint end
+#' Add Government Expenditure as Share of GDP to Country Data
+#'
+#' @param df A data frame containing country identifiers.
+#' @param id_column Name of the column containing country identifiers.
+#' @param id_type Type of country identifier. Defaults to "iso3_code".
+#' @param date_column Optional. Name of the column containing dates for
+#'  time-specific data.
+#' @param target_column Name of the output column. Defaults to "gov_exp".
+#'
+#' @return A data frame with an additional column containing government
+#'  expenditure as share of GDP data.
+#'
+#' @export
+add_gov_exp_share_column <- function(
+  df,
+  id_column,
+  id_type = "iso3_code",
+  date_column = NULL,
+  target_column = "gov_exp_share"
+) {
+  add_generic_column(
+    df,
+    id_column,
+    id_type,
+    date_column,
+    target_column,
+    get_gov_exp_share
+  )
+}
