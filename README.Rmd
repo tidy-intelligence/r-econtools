@@ -27,7 +27,7 @@ The package is part of the [EconDataverse](https://www.econdataverse.org/) famil
 
 ## Installation
 
-You can install the development version of econtools from [GitHub](https://github.com/) with:
+You can install the development version of `econtools` from [GitHub](https://github.com/) with:
 
 ``` r
 # install.packages("pak")
@@ -111,7 +111,7 @@ Finally, you can add columns from IMF WEO data such as the GDP in national curre
 add_gdp_column(df, id_column = "id", date_column = "year", usd = FALSE)
 ```
 
-Or the government expenditure (only availbale in national currency): 
+Or the government expenditure (only available in national currency): 
 
 ```{r}
 add_gov_exp_column(df, id_column = "id", date_column = "year")

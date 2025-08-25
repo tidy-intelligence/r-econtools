@@ -23,7 +23,7 @@ sovereign-level economic data.
 
 ## Installation
 
-You can install the development version of econtools from
+You can install the development version of `econtools` from
 [GitHub](https://github.com/) with:
 
 ``` r
@@ -181,7 +181,7 @@ add_gdp_column(df, id_column = "id", date_column = "year", usd = FALSE)
 #> 5 USA United States 2023               2.77e+13 2.772072e+13
 ```
 
-Or the government expenditure (only availbale in national currency):
+Or the government expenditure (only available in national currency):
 
 ``` r
 add_gov_exp_column(df, id_column = "id", date_column = "year")
