@@ -1,12 +1,16 @@
 Package: econtools
-Title: Tools to Analyze Economic Data
+Title: Enrich and Analyze Sovereign-Level Economic Data
 Version: 0.1.0
 Authors@R: c(
     person("Christoph", "Scheuch", , "christoph@tidy-intelligence.com", 
             role = c("aut", "cre", "cph"),
             comment = c(ORCID = "0009-0004-0423-6819"))
     )
-Description: A collection of tools to facilitate the analysis of economic data.
+Description: Provides a consistent set of functions for enriching and analyzing 
+    sovereign-level economic data. Economists, data scientists, and financial 
+    professionals can use the package to add standardized identifiers, 
+    demographic and macroeconomic indicators, and derived metrics such as 
+    gross domestic product per capita or government expenditure shares.
 License: MIT + file LICENSE
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)

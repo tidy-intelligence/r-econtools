@@ -12,9 +12,12 @@ Check](https://github.com/tidy-intelligence/econtools/actions/workflows/R-CMD-ch
 coverage](https://codecov.io/gh/tidy-intelligence/econtools/graph/badge.svg)](https://app.codecov.io/gh/tidy-intelligence/econtools)
 <!-- badges: end -->
 
-The goal of econtools is to provide tools for analyzing economic data
-similar to the Python
-[bblocks](https://github.com/ONEcampaign/bblocks/tree/main) package.
+Provides a consistent set of functions for enriching and analyzing
+sovereign-level economic data. Economists, data scientists, and
+financial professionals can use the package to add standardized
+identifiers, demographic and macroeconomic indicators, and derived
+metrics such as gross domestic product per capita or government
+expenditure shares.
 
 The package is part of the
 [EconDataverse](https://www.econdataverse.org/) family of packages aimed
@@ -210,3 +213,20 @@ add_gov_exp_share_column(df, id_column = "id", date_column = "year")
 #> 4 USA           USA 2022               2.60e+13       0.36829
 #> 5 USA United States 2023               2.77e+13       0.37113
 ```
+
+## Contributing
+
+Contributions to `econtools` are welcome! If you’d like to contribute,
+please follow these steps:
+
+1.  **Create an issue**: Before making changes, create an issue
+    describing the bug or feature you’re addressing.
+2.  **Fork the repository**: After receiving supportive feedback from
+    the package authors, fork the repository to your GitHub account.
+3.  **Create a branch**: Create a branch for your changes with a
+    descriptive name.
+4.  **Make your changes**: Implement your bug fix or feature.
+5.  **Test your changes**: Run tests to ensure your changes don’t break
+    existing functionality.
+6.  **Submit a pull request**: Push your changes to your fork and submit
+    a pull request to the main repository.
