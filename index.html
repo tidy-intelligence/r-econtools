@@ -22,7 +22,7 @@
 
     <a class="navbar-brand me-2" href="index.html">econtools</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.1.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.1.0.9000</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -56,9 +56,9 @@
 <div class="section level2">
 <h2 id="installation">Installation<a class="anchor" aria-label="anchor" href="#installation"></a>
 </h2>
-<p>You can install <code>econtools</code> from CRAN via:</p>
+<p>You can install <code>econtools</code> from <a href="https://cran.r-project.org/package=econtools" class="external-link">CRAN</a> via:</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">"imfweo"</span><span class="op">)</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">"econtools"</span><span class="op">)</span></span></code></pre></div>
 <p>You can install the development version of <code>econtools</code> from <a href="https://github.com/" class="external-link">GitHub</a> with:</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># install.packages("pak")</span></span>
@@ -169,7 +169,7 @@
 <span><span class="co">#&gt; 3 USA            US 2021               2.37e+13 United States</span></span>
 <span><span class="co">#&gt; 4 USA           USA 2022               2.60e+13 United States</span></span>
 <span><span class="co">#&gt; 5 USA United States 2023               2.77e+13 United States</span></span></code></pre></div>
-<p>Finally, you can add columns from IMF WEO data such as the GDP in national currency</p>
+<p>Finally, you can add columns from IMF World Economic Outlook (WEO) data such as the GDP in national currency</p>
 <div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="reference/add_gdp_column.html">add_gdp_column</a></span><span class="op">(</span><span class="va">df</span>, id_column <span class="op">=</span> <span class="st">"id"</span>, date_column <span class="op">=</span> <span class="st">"year"</span>, usd <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
 <span><span class="co">#&gt;    id          name year gross_domestic_product          gdp</span></span>
@@ -252,6 +252,8 @@
 <div class="dev-status">
 <h2 data-toc-skip>Dev status</h2>
 <ul class="list-unstyled">
+<li><a href="https://cran.r-project.org/package=econtools" class="external-link"><img src="https://www.r-pkg.org/badges/version/econtools" alt="CRAN status"></a></li>
+<li><a href="https://cran.r-project.org/package=econtools" class="external-link"><img src="https://cranlogs.r-pkg.org/badges/econtools" alt="CRAN downloads"></a></li>
 <li><a href="https://app.codecov.io/gh/tidy-intelligence/econtools" class="external-link"><img src="https://codecov.io/gh/tidy-intelligence/econtools/graph/badge.svg" alt="Codecov test coverage"></a></li>
 </ul>
 </div>
