@@ -16,16 +16,24 @@ knitr::opts_chunk$set(
 # econtools
 
 <!-- badges: start -->
+[![CRAN status](https://www.r-pkg.org/badges/version/econtools)](https://cran.r-project.org/package=econtools)
+[![CRAN downloads](https://cranlogs.r-pkg.org/badges/econtools)](https://cran.r-project.org/package=econtools)
 ![R CMD Check](https://github.com/tidy-intelligence/econtools/actions/workflows/R-CMD-check.yaml/badge.svg)
 ![Lint](https://github.com/tidy-intelligence/econtools/actions/workflows/lint.yaml/badge.svg)
 [![Codecov test coverage](https://codecov.io/gh/tidy-intelligence/econtools/graph/badge.svg)](https://app.codecov.io/gh/tidy-intelligence/econtools)
 <!-- badges: end -->
 
-The goal of econtools is to provide tools for analyzing economic data similar to the Python [bblocks](https://github.com/ONEcampaign/bblocks/tree/main) package.
+Provides a consistent set of functions for enriching and analyzing sovereign-level economic data. Economists, data scientists, and financial  professionals can use the package to add standardized identifiers, demographic and macroeconomic indicators, and derived metrics such as  gross domestic product per capita or government expenditure shares.
 
 The package is part of the [EconDataverse](https://www.econdataverse.org/) family of packages aimed at helping economists and financial professionals work with sovereign-level economic data.
 
 ## Installation
+
+You can install `econtools` from [CRAN](https://cran.r-project.org/package=econtools) via:
+
+``` r
+install.packages("econtools")
+```
 
 You can install the development version of `econtools` from [GitHub](https://github.com/) with:
 
@@ -105,7 +113,7 @@ You can also add a column with standardized names:
 add_short_names_column(df, "name")
 ```
 
-Finally, you can add columns from IMF WEO data such as the GDP in national currency
+Finally, you can add columns from IMF World Economic Outlook (WEO) data such as the GDP in national currency
 
 ```{r}
 add_gdp_column(df, id_column = "id", date_column = "year", usd = FALSE)
@@ -122,3 +130,20 @@ And share of government expenditure to GDP:
 ```{r}
 add_gov_exp_share_column(df, id_column = "id", date_column = "year")
 ```
+
+## Contributing
+
+Contributions to `econtools` are welcome! If you’d like to contribute,
+please follow these steps:
+
+1.  **Create an issue**: Before making changes, create an issue
+    describing the bug or feature you’re addressing.
+2.  **Fork the repository**: After receiving supportive feedback from
+    the package authors, fork the repository to your GitHub account.
+3.  **Create a branch**: Create a branch for your changes with a
+    descriptive name.
+4.  **Make your changes**: Implement your bug fix or feature.
+5.  **Test your changes**: Run tests to ensure your changes don’t break
+    existing functionality.
+6.  **Submit a pull request**: Push your changes to your fork and submit
+    a pull request to the main repository.

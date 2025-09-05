@@ -31,3 +31,16 @@ expenditure data.
 \description{
 Add Government Expenditure to Country Data
 }
+\examples{
+\dontshow{if (curl::has_internet()) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
+\donttest{
+# Add government expenditure
+df <- data.frame(country = c("USA", "GBR", "FRA"))
+result <- add_gov_exp_column(df, id_column = "country")
+
+# With years
+df <- data.frame(country = c("USA", "GBR"), year = c(2010, 2020))
+result <- add_gov_exp_column(df, id_column = "country", date_column = "year")
+}
+\dontshow{\}) # examplesIf}
+}

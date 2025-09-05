@@ -31,6 +31,8 @@ A data frame with an additional column containing population data.
 Add Population Column to Country Data
 }
 \examples{
+\dontshow{if (curl::has_internet()) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
+\donttest{
 # Add population data using ISO3 codes
 df <- data.frame(country = c("USA", "CAN", "MEX"))
 result <- add_population_column(df, id_column = "country")
@@ -40,5 +42,6 @@ df <- data.frame(country = c("USA", "CAN"), year = c(2019, 2020))
 result <- add_population_column(
  df, id_column = "country", date_column = "year"
 )
-
+}
+\dontshow{\}) # examplesIf}
 }
