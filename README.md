@@ -5,6 +5,10 @@
 
 <!-- badges: start -->
 
+[![CRAN
+status](https://www.r-pkg.org/badges/version/econtools)](https://cran.r-project.org/package=econtools)
+[![CRAN
+downloads](https://cranlogs.r-pkg.org/badges/econtools)](https://cran.r-project.org/package=econtools)
 ![R CMD
 Check](https://github.com/tidy-intelligence/econtools/actions/workflows/R-CMD-check.yaml/badge.svg)
 ![Lint](https://github.com/tidy-intelligence/econtools/actions/workflows/lint.yaml/badge.svg)
@@ -26,10 +30,11 @@ sovereign-level economic data.
 
 ## Installation
 
-You can install `econtools` from CRAN via:
+You can install `econtools` from
+[CRAN](https://cran.r-project.org/package=econtools) via:
 
 ``` r
-install.packages("imfweo")
+install.packages("econtools")
 ```
 
 You can install the development version of `econtools` from
@@ -177,8 +182,8 @@ add_short_names_column(df, "name")
 #> 5 USA United States 2023               2.77e+13 United States
 ```
 
-Finally, you can add columns from IMF WEO data such as the GDP in
-national currency
+Finally, you can add columns from IMF World Economic Outlook (WEO) data
+such as the GDP in national currency
 
 ``` r
 add_gdp_column(df, id_column = "id", date_column = "year", usd = FALSE)
