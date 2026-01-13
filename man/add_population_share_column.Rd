@@ -37,7 +37,7 @@ value divided by population.
 Add Population Share Column to Country Data
 }
 \examples{
-\dontshow{if (curl::has_internet()) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
+\dontshow{if (curl::has_internet()) withAutoprint(\{ # examplesIf}
 \donttest{
 # Compute value as a share of population
 df <- data.frame(country = c("USA", "CAN"), value = c(1000, 2000))

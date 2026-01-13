@@ -1,7 +1,7 @@
 #' @keywords internal
 #' @noRd
 get_population <- function(entities, most_recent_only) {
-  wdi_get(
+  wbwdi::wdi_get(
     entities = entities,
     indicators = "SP.POP.TOTL",
     most_recent_only = most_recent_only
@@ -12,7 +12,7 @@ get_population <- function(entities, most_recent_only) {
 #' @keywords internal
 #' @noRd
 get_poverty_ratio <- function(entities, most_recent_only) {
-  wdi_get(
+  wbwdi::wdi_get(
     entities = entities,
     indicators = "SI.POV.DDAY",
     most_recent_only = most_recent_only
@@ -23,7 +23,7 @@ get_poverty_ratio <- function(entities, most_recent_only) {
 #' @keywords internal
 #' @noRd
 get_population_density <- function(entities, most_recent_only) {
-  wdi_get(
+  wbwdi::wdi_get(
     entities = entities,
     indicators = "EN.POP.DNST",
     most_recent_only = most_recent_only
@@ -34,7 +34,7 @@ get_population_density <- function(entities, most_recent_only) {
 #' @keywords internal
 #' @noRd
 get_income_levels <- function(entities) {
-  wdi_get_entities() |>
+  wbwdi::wdi_get_entities() |>
     dplyr::select(
       id = "entity_id",
       "income_level_id",
@@ -45,9 +45,27 @@ get_income_levels <- function(entities) {
 
 #' @keywords internal
 #' @noRd
+safe_weo_get <- function(entities, series, ...) {
+  publication <- tryCatch(
+    imfweo::weo_get_latest_publication(),
+    error = function(e) {
+      list(year = 2025, release = "Spring")
+    }
+  )
+  imfweo::weo_get(
+    entities,
+    series,
+    year = publication$year,
+    release = publication$release,
+    ...
+  )
+}
+
+#' @keywords internal
+#' @noRd
 get_gdp <- function(entities, most_recent_only, usd = TRUE) {
   series <- ifelse(usd, "NGDPD", "NGDP")
-  result <- weo_get(entities, series) |>
+  result <- safe_weo_get(entities, series) |>
     dplyr::filter(.data$series_id == series) |>
     dplyr::select(id = "entity_id", "year", "value") |>
     dplyr::mutate(value = .data$value * 1e9)
@@ -60,7 +78,7 @@ get_gdp <- function(entities, most_recent_only, usd = TRUE) {
 #' @keywords internal
 #' @noRd
 get_gov_exp <- function(entities, most_recent_only) {
-  result <- weo_get(entities, "GGX") |>
+  result <- safe_weo_get(entities, "GGX") |>
     dplyr::filter(.data$series_id == "GGX") |>
     dplyr::select(id = "entity_id", "year", "value") |>
     dplyr::mutate(value = .data$value * 1e9)
@@ -73,7 +91,7 @@ get_gov_exp <- function(entities, most_recent_only) {
 #' @keywords internal
 #' @noRd
 get_gov_exp_share <- function(entities, most_recent_only) {
-  result <- weo_get(entities, "GGX_NGDP") |>
+  result <- safe_weo_get(entities, "GGX_NGDP") |>
     dplyr::filter(.data$series_id == "GGX_NGDP") |>
     dplyr::select(id = "entity_id", "year", "value") |>
     dplyr::mutate(value = .data$value / 100)

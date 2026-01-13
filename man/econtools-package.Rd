@@ -4,9 +4,9 @@
 \name{econtools-package}
 \alias{econtools}
 \alias{econtools-package}
-\title{econtools: Tools to Analyze Economic Data}
+\title{econtools: Enrich and Analyze Sovereign-Level Economic Data}
 \description{
-A collection of tools to facilitate the analysis of economic data.
+Provides a consistent set of functions for enriching and analyzing sovereign-level economic data. Economists, data scientists, and financial professionals can use the package to add standardized identifiers, demographic and macroeconomic indicators, and derived metrics such as gross domestic product per capita or government expenditure shares.
 }
 \seealso{
 Useful links:
