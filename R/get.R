@@ -1,7 +1,7 @@
 #' @keywords internal
 #' @noRd
 get_population <- function(entities, most_recent_only) {
-  wbwdi::wdi_get(
+  wdi_get(
     entities = entities,
     indicators = "SP.POP.TOTL",
     most_recent_only = most_recent_only
@@ -12,7 +12,7 @@ get_population <- function(entities, most_recent_only) {
 #' @keywords internal
 #' @noRd
 get_poverty_ratio <- function(entities, most_recent_only) {
-  wbwdi::wdi_get(
+  wdi_get(
     entities = entities,
     indicators = "SI.POV.DDAY",
     most_recent_only = most_recent_only
@@ -23,7 +23,7 @@ get_poverty_ratio <- function(entities, most_recent_only) {
 #' @keywords internal
 #' @noRd
 get_population_density <- function(entities, most_recent_only) {
-  wbwdi::wdi_get(
+  wdi_get(
     entities = entities,
     indicators = "EN.POP.DNST",
     most_recent_only = most_recent_only
@@ -34,7 +34,7 @@ get_population_density <- function(entities, most_recent_only) {
 #' @keywords internal
 #' @noRd
 get_income_levels <- function(entities) {
-  wbwdi::wdi_get_entities() |>
+  wdi_get_entities() |>
     dplyr::select(
       id = "entity_id",
       "income_level_id",
@@ -46,17 +46,11 @@ get_income_levels <- function(entities) {
 #' @keywords internal
 #' @noRd
 safe_weo_get <- function(entities, series, ...) {
-  publication <- tryCatch(
-    imfweo::weo_get_latest_publication(),
-    error = function(e) {
-      list(year = 2025, release = "Spring")
-    }
-  )
-  imfweo::weo_get(
+  weo_get(
     entities,
     series,
-    year = publication$year,
-    release = publication$release,
+    year = 2025,
+    release = "Spring",
     ...
   )
 }
