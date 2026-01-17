@@ -1,0 +1,69 @@
+# Add Population Share Column to Country Data
+
+Add Population Share Column to Country Data
+
+## Usage
+
+``` r
+add_population_share_column(
+  df,
+  id_column,
+  id_type = "iso3_code",
+  date_column = NULL,
+  value_column = "value",
+  target_column = "population_share"
+)
+```
+
+## Arguments
+
+- df:
+
+  A data frame containing country identifiers.
+
+- id_column:
+
+  Name of the column containing country identifiers.
+
+- id_type:
+
+  Type of country identifier. Defaults to "iso3_code".
+
+- date_column:
+
+  Optional. Name of the column containing dates for time-specific data.
+
+- value_column:
+
+  Name of the column containing the value to divided by population.
+
+- target_column:
+
+  Name of the output column. Defaults to "population_share".
+
+## Value
+
+A data frame with an additional column containing a new column with a
+value divided by population.
+
+## Examples
+
+``` r
+# \donttest{
+# Compute value as a share of population
+df <- data.frame(country = c("USA", "CAN"), value = c(1000, 2000))
+result <- add_population_share_column(
+  df, id_column = "country", value_column = "value"
+)
+
+# With year-specific values
+df <- data.frame(
+  country = c("USA", "CAN"),
+  year = c(2019, 2020),
+  value = c(1500, 1800)
+)
+result <- add_population_share_column(
+  df, id_column = "country", date_column = "year"
+)
+# }
+```
