@@ -8,16 +8,16 @@
 ## Citation
 
 Source:
-[`DESCRIPTION`](https://github.com/tidy-intelligence/r-econtools/blob/v0.1.1/DESCRIPTION)
+[`DESCRIPTION`](https://github.com/tidy-intelligence/r-econtools/blob/main/DESCRIPTION)
 
 Scheuch C (2026). *econtools: Enrich and Analyze Sovereign-Level
-Economic Data*. R package version 0.1.1,
+Economic Data*. R package version 0.1.1.9000,
 <https://github.com/tidy-intelligence/r-econtools>.
 
     @Manual{,
       title = {econtools: Enrich and Analyze Sovereign-Level Economic Data},
       author = {Christoph Scheuch},
       year = {2026},
-      note = {R package version 0.1.1},
+      note = {R package version 0.1.1.9000},
       url = {https://github.com/tidy-intelligence/r-econtools},
     }

@@ -1,5 +1,7 @@
 # Changelog
 
+## econtools (development version)
+
 ## econtools 0.1.1
 
 - Introduced `safe_weo_get()` and fixed `year = 2025` and
