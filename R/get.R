@@ -45,9 +45,21 @@ get_income_levels <- function(entities) {
 
 #' @keywords internal
 #' @noRd
+safe_weo_get <- function(entities, series, ...) {
+  weo_get(
+    entities,
+    series,
+    year = 2025,
+    release = "Spring",
+    ...
+  )
+}
+
+#' @keywords internal
+#' @noRd
 get_gdp <- function(entities, most_recent_only, usd = TRUE) {
   series <- ifelse(usd, "NGDPD", "NGDP")
-  result <- weo_get(entities, series) |>
+  result <- safe_weo_get(entities, series) |>
     dplyr::filter(.data$series_id == series) |>
     dplyr::select(id = "entity_id", "year", "value") |>
     dplyr::mutate(value = .data$value * 1e9)
@@ -60,7 +72,7 @@ get_gdp <- function(entities, most_recent_only, usd = TRUE) {
 #' @keywords internal
 #' @noRd
 get_gov_exp <- function(entities, most_recent_only) {
-  result <- weo_get(entities, "GGX") |>
+  result <- safe_weo_get(entities, "GGX") |>
     dplyr::filter(.data$series_id == "GGX") |>
     dplyr::select(id = "entity_id", "year", "value") |>
     dplyr::mutate(value = .data$value * 1e9)
@@ -73,7 +85,7 @@ get_gov_exp <- function(entities, most_recent_only) {
 #' @keywords internal
 #' @noRd
 get_gov_exp_share <- function(entities, most_recent_only) {
-  result <- weo_get(entities, "GGX_NGDP") |>
+  result <- safe_weo_get(entities, "GGX_NGDP") |>
     dplyr::filter(.data$series_id == "GGX_NGDP") |>
     dplyr::select(id = "entity_id", "year", "value") |>
     dplyr::mutate(value = .data$value / 100)

@@ -35,7 +35,7 @@ A data frame with an additional column containing GDP data.
 Add GDP to Country Data
 }
 \examples{
-\dontshow{if (curl::has_internet()) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
+\dontshow{if (curl::has_internet()) withAutoprint(\{ # examplesIf}
 \donttest{
 # Add most recent GDP values
 df <- data.frame(country = c("USA", "CHN", "DEU"))

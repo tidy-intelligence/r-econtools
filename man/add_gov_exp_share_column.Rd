@@ -32,7 +32,7 @@ expenditure as share of GDP data.
 Add Government Expenditure as Share of GDP to Country Data
 }
 \examples{
-\dontshow{if (curl::has_internet()) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
+\dontshow{if (curl::has_internet()) withAutoprint(\{ # examplesIf}
 \donttest{
 # Add government expenditure share of GDP
 df <- data.frame(country = c("USA", "JPN", "AUS"))
